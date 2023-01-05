@@ -1,17 +1,12 @@
 import React,{ReactElement} from 'react'
+import types from './types'
 
-type props = {
-    label: string;
-    children: ReactElement;
-    htmlFor: string;
-}
-
-export default function FormGroup({label,children,htmlFor}: props){
+export default function FormGroup(props: types){
 
     return(
         <div className="form-group">
-            <label htmlFor={htmlFor}>{label}</label>
-            {children}
+            <label htmlFor={props.htmlFor}>{props.label}</label>
+            {props.children}
         </div>
     )
 

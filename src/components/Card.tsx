@@ -1,11 +1,12 @@
 import React,{ReactElement} from 'react'
+import types from './types'
 
-type Props = {
+type props = {
     title: string;
     children: ReactElement;
 }
 
-export default function Card({title,children} : Props){
+export default function Card({title, children} : props){
 
     return(
         <div className="card md-3">
