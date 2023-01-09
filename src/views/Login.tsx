@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
+import { useHistory } from 'react-router-dom'
 
 export default function Login(){
 
     const [acesso,setAcesso] = useState('');
     const [senha, setSenha] = useState('');
+    const history = useHistory();
     
     const entrar = () =>{
         console.log("E-mail: " + acesso);
         console.log("Senha: " + senha);
         console.log("Clicou !")
+    }
+
+    const redirecionaCadastro = () =>{
+        history.push("/cadastro-usuarios")
     }
 
     return(
@@ -42,7 +48,7 @@ export default function Login(){
                                                 placeholder="Password" />
                                         </FormGroup>
                                         <button onClick={entrar} className="btn btn-success">Entrar</button>
-                                        <button className="btn btn-danger">Cadastrar</button>
+                                        <button onClick={redirecionaCadastro} className="btn btn-danger">Cadastrar</button>
                                     </fieldset>
                                 </div>
                             </div>
