@@ -1,5 +1,4 @@
 import React,{ReactElement} from 'react'
-import types from './types'
 
 type props = {
     title: string;
