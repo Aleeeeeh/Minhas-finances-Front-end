@@ -1,8 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Home(){
 
     const [saldo, setSaldo] = useState(0);
+
+    //Carrega dados do servidor
+    useEffect(() => {
+        console.log("Entrooou...")
+        axios.get("http://localhost:8080/api/usuarios/2/saldo")
+        .then( response => {
+            setSaldo( response.data );
+        }).catch( error => {
+            console.log( error.response );
+        })
+    });
 
     return(
         <div className="jumbotron">

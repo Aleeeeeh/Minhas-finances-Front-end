@@ -2,21 +2,29 @@ import React, { useState } from 'react'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Login(){
 
-    const [acesso,setAcesso] = useState('');
+    const [email,setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [mensagemErro, setMensagemErro] = useState(null);
     const history = useHistory();
     
     const entrar = () =>{
-        console.log("E-mail: " + acesso);
-        console.log("Senha: " + senha);
-        console.log("Clicou !")
+        axios
+        .post('http://localhost:8080/api/usuarios/autenticar', {
+            email: email,
+            senha: senha
+        }).then( response => {
+            history.push("/home");
+        }).catch( erro => {
+            setMensagemErro(erro.response.data);
+        })
     }
 
     const redirecionaCadastro = () =>{
-        history.push("/cadastro-usuarios")
+        history.push("/cadastro-usuarios");
     }
 
     return(
@@ -32,8 +40,8 @@ export default function Login(){
                                     <fieldset>
                                         <FormGroup label="Email: *" htmlFor="exampleInputEmail1">
                                             <input type="email" 
-                                                value={acesso}
-                                                onChange={(e) => {setAcesso(e.target.value)}}
+                                                value={email}
+                                                onChange={(e) => {setEmail(e.target.value)}}
                                                 className="form-control" 
                                                 id="exampleInputEmail1"                                                    
                                                 aria-describedby="emailHelp" 
@@ -49,6 +57,9 @@ export default function Login(){
                                         </FormGroup>
                                         <button onClick={entrar} className="btn btn-success">Entrar</button>
                                         <button onClick={redirecionaCadastro} className="btn btn-danger">Cadastrar</button>
+                                        <div className="row">
+                                            <span style={{color:'red'}}><i>{mensagemErro}</i></span>
+                                        </div>
                                     </fieldset>
                                 </div>
                             </div>
