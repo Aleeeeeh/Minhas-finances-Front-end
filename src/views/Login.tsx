@@ -17,6 +17,8 @@ export default function Login(){
             email: email,
             senha: senha
         }).then( response => {
+            // Grava login e senha no localStorage
+            localStorage.setItem('_usuario_logado', JSON.stringify( response.data ));
             history.push("/home");
         }).catch( erro => {
             setMensagemErro(erro.response.data);

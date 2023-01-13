@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
+type usuarioLogado = string;
+
 export default function Home(){
 
     const [saldo, setSaldo] = useState(0);
 
     //Carrega dados do servidor
     useEffect(() => {
-        console.log("Entrooou...")
-        axios.get("http://localhost:8080/api/usuarios/2/saldo")
-        .then( response => {
-            setSaldo( response.data );
-        }).catch( error => {
-            console.log( error.response );
-        })
+       
+        const usuarioLogadoString = localStorage.getItem('_usuario_logado');
+        
+        if (typeof(usuarioLogadoString) == "string")
+        {
+            const usuarioLogado = JSON.parse(usuarioLogadoString);
+
+            axios.get(`http://localhost:8080/api/usuarios/${usuarioLogado.id}/saldo`)
+            .then( response => {
+                setSaldo( response.data );
+            }).catch( error => {
+                console.log( error.response );
+            })
+            }
+
     });
 
     return(
