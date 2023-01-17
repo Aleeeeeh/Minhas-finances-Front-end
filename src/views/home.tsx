@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import UsuarioService from '../app/service/usuarioService';
+import localStorageService from '../app/service/localStorageService'
 
 type usuarioLogado = string;
 
@@ -9,20 +10,17 @@ export default function Home(){
 
     //Carrega dados do servidor
     useEffect(() => {
-       
-        const usuarioLogadoString = localStorage.getItem('_usuario_logado');
-        
-        if (typeof(usuarioLogadoString) == "string")
-        {
-            const usuarioLogado = JSON.parse(usuarioLogadoString);
 
-            axios.get(`http://localhost:8080/api/usuarios/${usuarioLogado.id}/saldo`)
-            .then( response => {
-                setSaldo( response.data );
-            }).catch( error => {
-                console.log( error.response );
-            })
-            }
+        const service = new UsuarioService();
+       
+        const usuarioLogado = localStorageService.obterItem('_usuario_logado');
+        
+        service.obterSaldoPorUsuario(usuarioLogado.id)
+        .then( response => {
+            setSaldo( response.data );
+        }).catch( error => {
+            console.log( error.response );
+        })
 
     });
 

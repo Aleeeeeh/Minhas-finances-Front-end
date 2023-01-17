@@ -3,12 +3,8 @@ import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import { useHistory } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
-import axios from 'axios'
+import localStorageService from '../app/service/localStorageService'
 
-
-/* Utilizar o método de autenticação do módulo de UsuarioService dentro de função 
-import UsuarioService from '../app/service/usuarioService'
-*/
 export default function Login(){
 
     const [email,setEmail] = useState('');
@@ -16,27 +12,20 @@ export default function Login(){
     const [mensagemErro, setMensagemErro] = useState(null);
     const history = useHistory();
 
-    class Service{
-        service: Object;
+    const service = new UsuarioService();
 
-        constructor(){
-            this.service = new UsuarioService();
-        }
-        // Verificar a tipagem do método de autenticar
-        entrar = () =>{
-            this.service.autenticar({
-                email: email,
-                senha: senha
-            })
-           .then( response => {
-                // Grava login e senha no localStorage
-                localStorage.setItem('_usuario_logado', JSON.stringify( response.data ));
-                history.push("/home");
-            }).catch( erro => {
-                setMensagemErro(erro.response.data);
-            })
-        }
-
+    const entrar = () =>{
+        service.autenticar({
+            email: email,
+            senha: senha
+        })
+        .then( response => {
+            // Grava login e senha no localStorage
+            localStorageService.adicionarItem('_usuario_logado', response.data);
+            history.push("/home");
+        }).catch( erro => { 
+            setMensagemErro(erro.response.data);
+        })
     }
 
     const redirecionaCadastro = () =>{

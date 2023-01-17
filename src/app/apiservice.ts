@@ -12,19 +12,23 @@ class ApiService{
     }
 
     post(url: string, objeto: string){
-        return httpClient.post(url, objeto);
+        const requestURL = `${this.apiUrl}${url}`
+        return httpClient.post(requestURL, objeto);
     }
 
     put(url: string, objeto: string){
-        return httpClient.put(url, objeto);
+        const requestURL = `${this.apiUrl}${url}`
+        return httpClient.put(requestURL, objeto);
     }
 
     delete(url: string){
+        const requestURL = `${this.apiUrl}${url}`
         return httpClient.delete(url);
     }
 
     get(url: string){
-        return httpClient.get(url);
+        const requestURL = `${this.apiUrl}${url}`
+        return httpClient.get(requestURL);
     }
 
 }
