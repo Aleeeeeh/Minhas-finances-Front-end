@@ -4,6 +4,7 @@ import FormGroup from '../components/Form-Group'
 import { useHistory } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
 import localStorageService from '../app/service/localStorageService'
+import { mensagemErro } from '../components/toastr'
 
 export default function Login(){
 
@@ -24,7 +25,8 @@ export default function Login(){
             localStorageService.adicionarItem('_usuario_logado', response.data);
             history.push("/home");
         }).catch( erro => { 
-            setMensagemErro(erro.response.data);
+            //setMensagemErro(erro.response.data);
+            mensagemErro(erro.response.data);
         })
     }
 

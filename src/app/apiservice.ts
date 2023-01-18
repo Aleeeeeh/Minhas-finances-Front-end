@@ -11,7 +11,7 @@ class ApiService{
         this.apiUrl = apiUrl;
     }
 
-    post(url: string, objeto: string){
+    post(url: string, objeto: object){
         const requestURL = `${this.apiUrl}${url}`
         return httpClient.post(requestURL, objeto);
     }

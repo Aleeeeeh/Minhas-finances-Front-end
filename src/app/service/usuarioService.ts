@@ -1,12 +1,17 @@
 import ApiService from "../apiservice";
 
+type objetoLogin = {
+    email: string;
+    senha: string;
+}
+
 class UsuarioService extends ApiService{
 
     constructor(){
         super('/api/usuarios')
     }
 
-    autenticar(credenciais: string){
+    autenticar(credenciais: objetoLogin){
         return this.post('/autenticar', credenciais);
     }
 
