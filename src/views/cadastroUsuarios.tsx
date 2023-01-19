@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import { useHistory } from 'react-router-dom'
+import UsuarioService from '../app/service/usuarioService'
+import { mensagemSucesso, mensagemErro } from '../components/toastr'
 
 export default function CadastroUsuario(){
 
@@ -11,11 +13,24 @@ export default function CadastroUsuario(){
     const [senhaRepeticao, setsenhaRepeticao] = useState('');
     const history = useHistory();
 
+    const service = new UsuarioService();
+
     const cadastrar = () =>{
-        console.log(nome);
-        console.log(email);
-        console.log(senha);
-        console.log(senhaRepeticao);
+        const objetoUsuario = {
+            nome: nome,
+            email: email,
+            senha: senha
+        }
+
+        service.salvar(objetoUsuario)
+        .then( response => {
+            mensagemSucesso('Usuário cadastrado com sucesso !');
+            setTimeout(() => {
+                history.push("/login");
+            }, 2000)  
+        }).catch( erro => {
+            mensagemErro(erro.response.data);
+        })
     }
 
     const cancelar = () =>{

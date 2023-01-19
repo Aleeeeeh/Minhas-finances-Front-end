@@ -5,6 +5,12 @@ type objetoLogin = {
     senha: string;
 }
 
+type objetoCadUsuario = {
+    nome: string,
+    email: string,
+    senha: string,
+}
+
 class UsuarioService extends ApiService{
 
     constructor(){
@@ -17,6 +23,10 @@ class UsuarioService extends ApiService{
 
     obterSaldoPorUsuario(id: string){
         return this.get(`/${id}/saldo`)
+    }
+
+    salvar(usuario: objetoCadUsuario){
+        return this.post('/', usuario)
     }
 
 }

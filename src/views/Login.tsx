@@ -10,7 +10,6 @@ export default function Login(){
 
     const [email,setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [mensagemErro, setMensagemErro] = useState(null);
     const history = useHistory();
 
     const service = new UsuarioService();
@@ -25,7 +24,6 @@ export default function Login(){
             localStorageService.adicionarItem('_usuario_logado', response.data);
             history.push("/home");
         }).catch( erro => { 
-            //setMensagemErro(erro.response.data);
             mensagemErro(erro.response.data);
         })
     }
@@ -64,9 +62,6 @@ export default function Login(){
                                         </FormGroup>
                                         <button onClick={entrar} className="btn btn-success">Entrar</button>
                                         <button onClick={redirecionaCadastro} className="btn btn-danger">Cadastrar</button>
-                                        <div className="row">
-                                            <span style={{color:'red'}}><i>{mensagemErro}</i></span>
-                                        </div>
                                     </fieldset>
                                 </div>
                             </div>

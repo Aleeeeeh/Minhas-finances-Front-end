@@ -7,10 +7,10 @@ toastr.options = {
     "progressBar": true,
     "positionClass": "toast-top-right",
     "preventDuplicates": false,
-    "onclick": null,
+    "onclick": () => null,
     "showDuration": 300,
     "hideDuration": 1000,
-    "timeOut": 5000,
+    "timeOut": 2000,
     "extendedTimeOut": 1000,
     "showEasing": "swing",
     "hideEasing": "linear",
@@ -27,7 +27,7 @@ export function mensagemErro(mensagem:string){
 }
 
 export function mensagemSucesso(mensagem:string){
-    mostrarMensagem('Sucesso',mensagem, 'sucess')
+    mostrarMensagem('Sucesso',mensagem,'success')
 }
 
 export function mensagemAlerta(mensagem:string){
