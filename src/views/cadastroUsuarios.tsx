@@ -10,12 +10,44 @@ export default function CadastroUsuario(){
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [senhaRepeticao, setsenhaRepeticao] = useState('');
+    const [senhaRepeticao, setSenhaRepeticao] = useState('');
     const history = useHistory();
 
     const service = new UsuarioService();
 
+    const validar = () =>{
+        const msgs = [];
+
+        if(!nome){
+            msgs.push("O campo nome é obrigatório.");
+        }
+
+        if(!email){
+            msgs.push("O campo e-mail é obrigatório.");
+        }else if(!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
+            msgs.push("Informe um e-mail válido.");
+        }
+
+        if(!senha){
+            msgs.push("Digite a senha.");
+        }else if(senha !== senhaRepeticao){
+            msgs.push("As senhas não conferem.")
+        }
+
+        return msgs;
+    }
+
     const cadastrar = () =>{
+        const msgs = validar();
+
+        if(msgs && msgs.length > 0){
+            msgs.forEach( (msg, index) =>{
+                mensagemErro(msg)
+            });
+
+            return false;
+        }
+
         const objetoUsuario = {
             nome: nome,
             email: email,
@@ -68,7 +100,7 @@ export default function CadastroUsuario(){
                                     id="inputRepitaSenha"
                                     className="form-control"
                                     name="senha"
-                                    onChange={(e) => setsenhaRepeticao(e.target.value)} />
+                                    onChange={(e) => setSenhaRepeticao(e.target.value)} />
                         </FormGroup>
                         <button onClick={cadastrar} type="button" className="btn btn-success">Salvar</button>
                         <button onClick={cancelar} type="button" className="btn btn-danger">Cancelar</button>

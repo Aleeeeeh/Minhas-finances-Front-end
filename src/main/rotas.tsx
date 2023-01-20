@@ -2,6 +2,7 @@ import React from 'react'
 import Home from '../views/home'
 import Login from '../views/Login'
 import CadastroUsuario from '../views/cadastroUsuarios'
+import Lancamentos from '../views/cadastroLancamento'
 import { Route, Switch, HashRouter } from 'react-router-dom'
 
 {/* 
@@ -18,6 +19,7 @@ export default function Rotas(){
                 <Route path="/home" component={Home} />
                 <Route path="/login"  component={Login} />
                 <Route path="/cadastro-usuarios" component={CadastroUsuario} />
+                <Route path="/lancamentos" component={Lancamentos} />
             </Switch>
         </HashRouter>
     )
