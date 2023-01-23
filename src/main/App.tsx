@@ -1,6 +1,6 @@
 import React from 'react'
 import Rotas from './rotas'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import 'toastr/build/toastr.min.js'
 
 import 'bootswatch/dist/flatly/bootstrap.css'

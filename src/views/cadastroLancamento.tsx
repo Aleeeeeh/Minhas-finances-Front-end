@@ -2,11 +2,12 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
-import selectMenu from '../components/selectMenu'
+import SelectMenu from '../components/SelectMenu'
+import LancamentosTable from '../components/LancamentosTable'
 
 export default function CadastroLancamento(){
 
-    const lista = [
+    const meses = [
         { label: 'Selecione...', value: '' },
         { label: 'Janeiro', value: 1 },
         { label: 'Fevereiro', value: 2 },
@@ -22,7 +23,18 @@ export default function CadastroLancamento(){
         { label: 'Dezembro', value: 12 }
     ]
     
+    const tipos = [
+        { label: 'Selecione...', value: '' },
+        { label: 'Despesa', value: 'DESPESA' } ,
+        { label: 'Receita', value: 'RECEITA' }
+    ]
+    
+    const lancamentos = [
+        { id: 1, descricao: 'Salário', valor: '5000', tipo: 'Receita', mes: '1', status: 'Efetivado' }
+    ]
+
     return(
+        // Corrigir tipagem do card para aceitar vários filhos
         <Card title="Lançamentos">
             <div className="row">
                 <div className="col-lg-6">
@@ -36,12 +48,25 @@ export default function CadastroLancamento(){
                                         placeholder="Digite o Ano" />
                             </FormGroup>
                             <FormGroup label="Mês: *" htmlFor="InputMes">
-                                <selectMenu lista={lista}/>
+                                <SelectMenu className="form-control" lista={meses}/>
                             </FormGroup>
+                            <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
+                                <SelectMenu className="form-control" lista={tipos}/>
+                            </FormGroup>
+                            <button type="button" className="btn btn-success">Buscar</button>
+                            <button type="button" className="btn btn-danger">Cadastrar</button>
                         </fieldset>
                     </div>
                 </div>
-            </div>
+            </div>  
+            <br />       
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="bs-component">
+                        <LancamentosTable lancamentos={lancamentos} />
+                    </div>
+                </div>
+            </div>       
         </Card>
     )
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBarItem from '../components/navbaritem'
+import NavBarItem from './Navbaritem'
 
 export default function Navbar(){
 
