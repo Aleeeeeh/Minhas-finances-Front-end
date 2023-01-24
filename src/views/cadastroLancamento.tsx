@@ -1,37 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import SelectMenu from '../components/SelectMenu'
 import LancamentosTable from '../components/LancamentosTable'
+import LancamentoService from '../app/service/lancamentoService'
+import localStorageService from '../app/service/localStorageService'
 
 export default function CadastroLancamento(){
 
-    const meses = [
-        { label: 'Selecione...', value: '' },
-        { label: 'Janeiro', value: 1 },
-        { label: 'Fevereiro', value: 2 },
-        { label: 'Março', value: 3 },
-        { label: 'Abril', value: 4 },
-        { label: 'Maio', value: 5 },
-        { label: 'Junho', value: 6 },
-        { label: 'Julho', value: 7 },
-        { label: 'Agosto', value: 8 },
-        { label: 'Setembro', value: 9 },
-        { label: 'Outubro', value: 10 },
-        { label: 'Novembro', value: 11 },
-        { label: 'Dezembro', value: 12 }
-    ]
+    const [ano, setAno] = useState('');
+    const [mes, setMes] = useState('');
+    const [tipo, setTipo] = useState('');
+    const [status, setStatus] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [lancamentos, setLancamentos] = useState([]);
+
+    const service = new LancamentoService();
+
+    const buscar = () =>{
+        const idUsuarioSessao = localStorageService.obterItem('_usuario_logado');
+        
+        const lancamentoFiltro = {
+            ano: ano,
+            mes: mes,
+            tipo: tipo,
+            status: status,
+            descricao: descricao,
+            usuario: idUsuarioSessao.id
+        }
+
+        service.consultar(lancamentoFiltro)
+                .then( response => { setLancamentos(response.data) })
+                .catch( error => {
+                    console.log(error);
+                })
+    }
+
+    const meses = service.obterListaMeses();
     
-    const tipos = [
-        { label: 'Selecione...', value: '' },
-        { label: 'Despesa', value: 'DESPESA' } ,
-        { label: 'Receita', value: 'RECEITA' }
-    ]
-    
-    const lancamentos = [
-        { id: 1, descricao: 'Salário', valor: '5000', tipo: 'Receita', mes: '1', status: 'Efetivado' }
-    ]
+    const tipos = service.obterListaTipos();
 
     return(
         // Corrigir tipagem do card para aceitar vários filhos
@@ -44,16 +52,35 @@ export default function CadastroLancamento(){
                                 <input type="text" 
                                         className="form-control" 
                                         id="InputAno" 
-                                        aria-describedby="emailHelp"
+                                        value={ano}
+                                        onChange={(e: any) => setAno(e.target.value)}
                                         placeholder="Digite o Ano" />
                             </FormGroup>
                             <FormGroup label="Mês: *" htmlFor="InputMes">
-                                <SelectMenu className="form-control" lista={meses}/>
+                                <SelectMenu id="inputMes"
+                                            value={mes}
+                                            onChange={(e:any) => setMes(e.target.value)}
+                                            className="form-control" 
+                                            lista={meses} />
+                            </FormGroup>
+                            {/* Colocando só a primeira letra no filtro descrição ele já traz, isso foi criado no 
+                              método de filtrar na API do Java */}
+                            <FormGroup label="Descrição: " htmlFor="InputDesc">
+                                <input type="text"
+                                            id="InputDesc"
+                                            value={descricao}
+                                            onChange={(e:any) => setDescricao(e.target.value)}
+                                            className="form-control" 
+                                            placeholder="Digite a descrição" />
                             </FormGroup>
                             <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
-                                <SelectMenu className="form-control" lista={tipos}/>
+                                <SelectMenu id="InputTipos"
+                                            value={tipo}
+                                            onChange={(e:any) => setTipo(e.target.value)}
+                                            className="form-control" 
+                                            lista={tipos} />
                             </FormGroup>
-                            <button type="button" className="btn btn-success">Buscar</button>
+                            <button onClick={buscar} type="button" className="btn btn-success">Buscar</button>
                             <button type="button" className="btn btn-danger">Cadastrar</button>
                         </fieldset>
                     </div>
