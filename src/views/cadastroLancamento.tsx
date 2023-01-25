@@ -6,6 +6,7 @@ import SelectMenu from '../components/SelectMenu'
 import LancamentosTable from '../components/LancamentosTable'
 import LancamentoService from '../app/service/lancamentoService'
 import localStorageService from '../app/service/localStorageService'
+import * as mensagem from '../components/toastr'
 
 export default function CadastroLancamento(){
 
@@ -19,6 +20,11 @@ export default function CadastroLancamento(){
     const service = new LancamentoService();
 
     const buscar = () =>{
+        if(!ano){
+            mensagem.mensagemErro("O preenchimento do campo ano é obrigatório.");
+            return false;
+        }
+
         const idUsuarioSessao = localStorageService.obterItem('_usuario_logado');
         
         const lancamentoFiltro = {
@@ -31,10 +37,23 @@ export default function CadastroLancamento(){
         }
 
         service.consultar(lancamentoFiltro)
-                .then( response => { setLancamentos(response.data) })
-                .catch( error => {
-                    console.log(error);
+                .then( response => { 
+                    setLancamentos(response.data) 
+                    mensagem.mensagemSucesso("Consulta realizada com sucesso !")
                 })
+                .catch( error => {
+                    mensagem.mensagemErro(error.response.data);
+                })
+
+        
+    }
+
+    const editar = (idLancamento: number) =>{
+        console.log("Editando lançamento " + idLancamento);
+    }
+
+    const deletar = (idLancamento: number) =>{
+        console.log("Deletando lançamento " + idLancamento);
     }
 
     const meses = service.obterListaMeses();
@@ -90,7 +109,9 @@ export default function CadastroLancamento(){
             <div className="row">
                 <div className="col-lg-12">
                     <div className="bs-component">
-                        <LancamentosTable lancamentos={lancamentos} />
+                        <LancamentosTable lancamentos={lancamentos} 
+                                        editarLancamento={editar}
+                                        deletarLancamento={deletar}/>
                     </div>
                 </div>
             </div>       
