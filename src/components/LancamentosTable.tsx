@@ -3,9 +3,9 @@ import currencyFormatter from 'currency-formatter'
 
 export default (props: any) => {
 
-    const rows = props.lancamentos.map( (Lancamento: any) => {
+    const rows = props.lancamentos.map( (Lancamento: any, index: any) => {
         return(
-            <tr key={Lancamento.id}>
+            <tr key={index}>
                 <td>{Lancamento.descricao}</td>
                 <td>{currencyFormatter.format(Lancamento.valor, {locale: 'pt-BR'})}</td>
                 <td>{Lancamento.tipo}</td>
@@ -19,7 +19,7 @@ export default (props: any) => {
                     </button>
                     <button type="button" 
                             className="btn btn-danger"
-                            onClick={e => props.deletarLancamento(Lancamento.id)}>
+                            onClick={e => props.deletarLancamento(Lancamento)}>
                             Deletar
                     </button>
                 </td>

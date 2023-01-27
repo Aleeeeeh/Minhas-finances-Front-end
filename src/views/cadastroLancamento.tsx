@@ -38,6 +38,10 @@ export default function CadastroLancamento(){
 
         service.consultar(lancamentoFiltro)
                 .then( response => { 
+                    if(response.data == ""){
+                        mensagem.mensagemAlerta("Nenhum registro encontrado.");
+                        return false;
+                    }
                     setLancamentos(response.data) 
                     mensagem.mensagemSucesso("Consulta realizada com sucesso !")
                 })
@@ -52,8 +56,26 @@ export default function CadastroLancamento(){
         console.log("Editando lançamento " + idLancamento);
     }
 
-    const deletar = (idLancamento: number) =>{
-        console.log("Deletando lançamento " + idLancamento);
+    const deletar = (Lancamento: never) =>{
+       // const index = lancamentos.indexOf(Lancamento); 
+        //console.log("Index: " + index);
+        console.log("Lancamentos: " + lancamentos);
+        lancamentos.splice(0, 1);
+        
+        setLancamentos(lancamentos);
+        console.log("Lancamentos atualizado: " +lancamentos);
+        console.log("Lancamentos atualizado: " +JSON.stringify(lancamentos));
+        
+        mensagem.mensagemSucesso("Lançamento deletado com sucesso !");
+        /*service.deletar(Lancamento.id)
+        .then(response =>{
+            const index = lancamentos.indexOf(Lancamento); 
+            lancamentos.splice(index, 1);
+            setLancamentos(lancamentos);
+            mensagem.mensagemSucesso("Lançamento deletado com sucesso !");
+        }).catch(error =>{
+            mensagem.mensagemErro("Ocorreu um erro ao tentar deletar o lançamento.");
+        })*/
     }
 
     const meses = service.obterListaMeses();
