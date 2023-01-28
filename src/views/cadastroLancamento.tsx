@@ -7,6 +7,7 @@ import LancamentosTable from '../components/LancamentosTable'
 import LancamentoService from '../app/service/lancamentoService'
 import localStorageService from '../app/service/localStorageService'
 import * as mensagem from '../components/toastr'
+import { objetoLancamento } from '../components/typesLancamentos'
 
 export default function CadastroLancamento(){
 
@@ -19,7 +20,7 @@ export default function CadastroLancamento(){
 
     const service = new LancamentoService();
 
-    const buscar = () =>{
+    const buscar = (exibeMensagem: number) =>{
         if(!ano){
             mensagem.mensagemErro("O preenchimento do campo ano é obrigatório.");
             return false;
@@ -42,40 +43,42 @@ export default function CadastroLancamento(){
                         mensagem.mensagemAlerta("Nenhum registro encontrado.");
                         return false;
                     }
-                    setLancamentos(response.data) 
-                    mensagem.mensagemSucesso("Consulta realizada com sucesso !")
+                    
+                    setLancamentos(response.data);
+
+                    if(exibeMensagem == 0){
+                        mensagem.mensagemSucesso("Consulta realizada com sucesso !");
+                    }
                 })
                 .catch( error => {
                     mensagem.mensagemErro(error.response.data);
-                })
-
-        
+                })  
     }
 
     const editar = (idLancamento: number) =>{
         console.log("Editando lançamento " + idLancamento);
     }
 
-    const deletar = (Lancamento: never) =>{
-       // const index = lancamentos.indexOf(Lancamento); 
-        //console.log("Index: " + index);
-        console.log("Lancamentos: " + lancamentos);
-        lancamentos.splice(0, 1);
-        
-        setLancamentos(lancamentos);
-        console.log("Lancamentos atualizado: " +lancamentos);
-        console.log("Lancamentos atualizado: " +JSON.stringify(lancamentos));
-        
-        mensagem.mensagemSucesso("Lançamento deletado com sucesso !");
-        /*service.deletar(Lancamento.id)
+    const deletar = (Lancamento: objetoLancamento) =>{
+        service.deletar(Lancamento.id)
         .then(response =>{
-            const index = lancamentos.indexOf(Lancamento); 
-            lancamentos.splice(index, 1);
-            setLancamentos(lancamentos);
+            buscar(1);
             mensagem.mensagemSucesso("Lançamento deletado com sucesso !");
+
+            /* Outra forma de fazer seria atualizando a variável de estado lancamentos
+            const indexExcluir = lancamentos.indexOf(Lancamento);  -> Pega posicao do objeto a deletar
+            1° param TODOS os objetos, e o indice de cada um
+            const lancamentoAtualizado = lancamentos.filter((arrayLancamentos, index) =>{
+                if(indexExcluir != index){
+                    return arrayLancamentos -> Return o array com todos os objetos com excessão do que foi excluído
+                }
+            })
+        
+            setLancamentos(lancamentoAtualizado); -> Atualizando variável de estado com array sem aquele objeto
+            */
         }).catch(error =>{
             mensagem.mensagemErro("Ocorreu um erro ao tentar deletar o lançamento.");
-        })*/
+        })
     }
 
     const meses = service.obterListaMeses();
@@ -83,7 +86,6 @@ export default function CadastroLancamento(){
     const tipos = service.obterListaTipos();
 
     return(
-        // Corrigir tipagem do card para aceitar vários filhos
         <Card title="Lançamentos">
             <div className="row">
                 <div className="col-lg-6">
@@ -121,7 +123,7 @@ export default function CadastroLancamento(){
                                             className="form-control" 
                                             lista={tipos} />
                             </FormGroup>
-                            <button onClick={buscar} type="button" className="btn btn-success">Buscar</button>
+                            <button onClick={() =>{buscar(0)}} type="button" className="btn btn-success">Buscar</button>
                             <button type="button" className="btn btn-danger">Cadastrar</button>
                         </fieldset>
                     </div>

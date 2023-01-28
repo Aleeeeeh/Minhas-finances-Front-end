@@ -2,7 +2,7 @@ import React,{ReactElement} from 'react'
 
 type props = {
     title: string;
-    children: ReactElement;
+    children: React.ReactFragment;
 }
 
 export default function Card({title, children} : props){

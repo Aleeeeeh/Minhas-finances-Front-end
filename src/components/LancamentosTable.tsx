@@ -1,11 +1,12 @@
 import React from 'react'
 import currencyFormatter from 'currency-formatter'
+import { objetoLancamento } from './typesLancamentos'
 
 export default (props: any) => {
 
-    const rows = props.lancamentos.map( (Lancamento: any, index: any) => {
+    const rows = props.lancamentos.map( (Lancamento: objetoLancamento) => {
         return(
-            <tr key={index}>
+            <tr key={Lancamento.id}>
                 <td>{Lancamento.descricao}</td>
                 <td>{currencyFormatter.format(Lancamento.valor, {locale: 'pt-BR'})}</td>
                 <td>{Lancamento.tipo}</td>

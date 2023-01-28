@@ -67,7 +67,7 @@ export default class LancamentoService extends ApiService{
         return this.get(params)
     }
 
-    deletar(id: number){
+    deletar(id: string){
         return this.delete(`/${id}`)
     }
 
