@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
+
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import SelectMenu from '../components/SelectMenu'
@@ -17,6 +20,8 @@ export default function CadastroLancamento(){
     const [status, setStatus] = useState('');
     const [descricao, setDescricao] = useState('');
     const [lancamentos, setLancamentos] = useState([]);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(true);
+    const [lancamentoDeletar, setLancamentoDeletar] = useState({});
 
     const service = new LancamentoService();
 
@@ -59,8 +64,8 @@ export default function CadastroLancamento(){
         console.log("Editando lançamento " + idLancamento);
     }
 
-    const deletar = (Lancamento: objetoLancamento) =>{
-        service.deletar(Lancamento.id)
+    const deletar = () =>{
+        service.deletar(lancamentoDeletar.id)
         .then(response =>{
             buscar(1);
             mensagem.mensagemSucesso("Lançamento deletado com sucesso !");
@@ -81,10 +86,27 @@ export default function CadastroLancamento(){
         })
     }
 
+    const abrirConfirmacao = (Lancamento: object) =>{
+        setShowConfirmDialog(true);
+        setLancamentoDeletar(Lancamento);
+    }
+
+    const cancelaDelecao = () =>{
+        setShowConfirmDialog(false);
+        setLancamentoDeletar({});
+    }
+
     const meses = service.obterListaMeses();
     
     const tipos = service.obterListaTipos();
 
+    const confirmaDialogFooter = (
+        <div>
+            <Button label="Confirmar" icon="pi pi-check" onClick={deletar} />
+            <Button label="Cancelar" icon="pi pi-times" onClick={cancelaDelecao} />
+        </div> 
+    )    
+    
     return(
         <Card title="Lançamentos">
             <div className="row">
@@ -135,10 +157,20 @@ export default function CadastroLancamento(){
                     <div className="bs-component">
                         <LancamentosTable lancamentos={lancamentos} 
                                         editarLancamento={editar}
-                                        deletarLancamento={deletar}/>
+                                        deletarLancamento={abrirConfirmacao}/>
                     </div>
                 </div>
-            </div>       
+            </div>    
+            <div>
+            <Dialog header="Header" 
+            visible={showConfirmDialog} // Se o modal está visível ou não 
+            style={{ width: '50vw' }} 
+            footer={confirmaDialogFooter} // Botões que aparecem na parte debaixo do modal
+            modal={true} // Modal visivel
+            onHide={() => setShowConfirmDialog(false)}> {/* Aqui muda o state para false e true do modal */}
+                <p>Deseja realmente deletar esse lançamento ?</p>
+            </Dialog>
+            </div>   
         </Card>
     )
 
