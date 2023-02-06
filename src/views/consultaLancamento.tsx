@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 
@@ -21,7 +21,7 @@ export default function ConsultaLancamento(){
     const [descricao, setDescricao] = useState('');
     const [lancamentos, setLancamentos] = useState([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [lancamentoDeletar, setLancamentoDeletar] = useState({});
+    const [lancamentoDeletar, setLancamentoDeletar] = useState([]);
 
     const history = useHistory();
 
@@ -62,8 +62,8 @@ export default function ConsultaLancamento(){
                 })  
     }
 
-    const editar = (idLancamento: number) =>{
-        console.log("Editando lançamento " + idLancamento);
+    const editar = (idLancamento: objetoLancamento) =>{
+        history.push(`/cadastro-lancamentos/${idLancamento}`);
     }
 
     const deletar = () =>{

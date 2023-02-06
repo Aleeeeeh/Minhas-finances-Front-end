@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import SelectMenu from '../components/SelectMenu'
 import * as mensagem from '../components/toastr'
 
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import LancamentoService from '../app/service/lancamentoService'
 import localStorageService from '../app/service/localStorageService'
 
@@ -17,8 +17,30 @@ export default function CadastroLancamento(){
     const [ano, setAno] = useState('');
     const [tipo, setTipo] = useState('');
     const [status, setStatus] = useState('');
-
+    
     const service = new LancamentoService();
+
+    // Pega id do parâmetro da URL, colocar nome da variável como sendo a mesma que passamos em rotas.tsx
+    const { idLancamento }:{idLancamento:any} = useParams();
+    
+    useEffect(() => {
+        if(idLancamento){
+            service.obterPorId(idLancamento)
+            .then( response => {
+                const objLancamento = response.data;
+                
+                setDescricao(objLancamento.descricao);
+                setAno(objLancamento.ano);
+                setMes(objLancamento.mes);
+                setValor(objLancamento.valor);
+                setTipo(objLancamento.tipo);
+                setStatus(objLancamento.status);
+            })
+            .catch(error =>{
+                mensagem.mensagemErro(error.response.data);
+            }) 
+        }
+    },[]) //Esse array vazio faz com que o useEffect seja executado apenas uma vez
 
     const tipos = service.obterListaTipos();
     const meses = service.obterListaMeses();
@@ -116,7 +138,7 @@ export default function CadastroLancamento(){
             <div className="row">
                 <div className="col-md-4">
                     <button onClick={cadastraLancamento} className="btn btn-success">Cadastrar</button>
-                    <button className="btn btn-danger">Cancelar</button>
+                    <button onClick={e => history.push('/consulta-lancamentos')} className="btn btn-danger">Cancelar</button>
                 </div>
             </div>
         </Card> 

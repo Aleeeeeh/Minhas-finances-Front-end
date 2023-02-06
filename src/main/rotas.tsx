@@ -21,7 +21,7 @@ export default function Rotas(){
                 <Route path="/login"  component={Login} />
                 <Route path="/cadastro-usuarios" component={CadastroUsuario} />
                 <Route path="/consulta-lancamentos" component={ConsultaLancamentos} />
-                <Route path="/cadastro-lancamentos" component={CadastroLancamentos} />
+                <Route path="/cadastro-lancamentos/:idLancamento?" component={CadastroLancamentos} />{/* ? -> Pra renderizar mesmo sem parâmetro */}
             </Switch>
         </HashRouter>
     )
