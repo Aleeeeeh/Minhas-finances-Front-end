@@ -84,7 +84,7 @@ export default function ConsultaLancamento(){
 
     const cancelaDelecao = () =>{
         setShowConfirmDialog(false);
-        setLancamentoDeletar({});
+        setLancamentoDeletar([]);
     }
 
     const confirmaDialogFooter = (

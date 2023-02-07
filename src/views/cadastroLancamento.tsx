@@ -17,6 +17,7 @@ export default function CadastroLancamento(){
     const [ano, setAno] = useState('');
     const [tipo, setTipo] = useState('');
     const [status, setStatus] = useState('');
+    const [atualizacao, setAtualizacao] = useState(false);
     
     const service = new LancamentoService();
 
@@ -29,12 +30,14 @@ export default function CadastroLancamento(){
             .then( response => {
                 const objLancamento = response.data;
                 
+                setId(idLancamento)
                 setDescricao(objLancamento.descricao);
                 setAno(objLancamento.ano);
                 setMes(objLancamento.mes);
                 setValor(objLancamento.valor);
                 setTipo(objLancamento.tipo);
                 setStatus(objLancamento.status);
+                setAtualizacao(true)
             })
             .catch(error =>{
                 mensagem.mensagemErro(error.response.data);
@@ -57,6 +60,13 @@ export default function CadastroLancamento(){
             usuario: usuarioLogado.id
         }
 
+        try{
+            service.validacao(objLancamento)
+        }catch(error: any){
+            const mensagens = error.mensagens;
+            mensagens.forEach((msg: string) => mensagem.mensagemErro(msg));
+        }
+
         service.salvar(objLancamento)
                 .then(response =>{
                     mensagem.mensagemSucesso("Lançamento cadastrado com sucesso.");
@@ -64,12 +74,37 @@ export default function CadastroLancamento(){
                         history.push("/consulta-lancamentos");
                     }, 2000)     
                 }).catch(error =>{
-                    mensagem.mensagemErro(error.responsa.data);
+                    mensagem.mensagemErro(error.response.data);
+                })
+    }
+
+    const atualizarLancamento = () =>{
+        const usuarioLogado = localStorageService.obterItem("_usuario_logado")
+
+        const objLancamento = {
+            id: id,
+            descricao: descricao,
+            valor: valor,
+            mes: mes,
+            ano: ano,
+            tipo: tipo,
+            status: status,
+            usuario: usuarioLogado.id
+        }
+
+        service.atualizar(objLancamento)
+                .then(response =>{
+                    mensagem.mensagemSucesso("Lançamento atualizado com sucesso.");
+                    setTimeout(() => {
+                        history.push("/consulta-lancamentos");
+                    }, 2000)     
+                }).catch(error =>{
+                    mensagem.mensagemErro(error.response.data);
                 })
     }
 
     return(
-        <Card title="Cadastro de lançamento">
+        <Card title={atualizacao ? 'Atualização de lançamento' : 'Cadastro de lançamento'}>
             <div className="row">
                 <div className="col-md-12">
                     <FormGroup htmlFor="inputDescricao" label="Descrição: *">
@@ -137,7 +172,15 @@ export default function CadastroLancamento(){
             </div>
             <div className="row">
                 <div className="col-md-4">
-                    <button onClick={cadastraLancamento} className="btn btn-success">Cadastrar</button>
+                    {/* Renderização condicional */}
+                    {
+                        atualizacao ? 
+                        (
+                            <button onClick={atualizarLancamento} className="btn btn-success">Atualizar</button>
+                        ):(
+                            <button onClick={cadastraLancamento} className="btn btn-success">Cadastrar</button>
+                        )
+                    }               
                     <button onClick={e => history.push('/consulta-lancamentos')} className="btn btn-danger">Cancelar</button>
                 </div>
             </div>

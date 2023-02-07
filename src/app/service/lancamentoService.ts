@@ -1,4 +1,5 @@
 import ApiService from "../apiservice";
+import ErroValidacao from "../service/exception/erroValidacao"
 
 type objetoFiltroLanc = {
     ano: string,
@@ -45,8 +46,40 @@ export default class LancamentoService extends ApiService{
         return this.get(`/${id}`);
     }
 
+    validacao(Lancamento: any){
+        const erros = [];
+
+        if(!Lancamento.ano){
+            erros.push("Informe o ano.");
+        }
+
+        if(!Lancamento.mes){
+            erros.push("Informe o mês.");
+        }
+
+        if(!Lancamento.descricao){
+            erros.push("Informe a descrição.");
+        }
+
+        if(!Lancamento.valor){
+            erros.push("Informe o valor.");
+        }
+
+        if(!Lancamento.tipo){
+            erros.push("Informe o tipo.");
+        }
+
+        if(erros && erros.length > 0){
+            throw new ErroValidacao(erros);
+        }
+    }
+
     salvar(Lancamento: object){
         return this.post('/', Lancamento)
+    }
+
+    atualizar(Lancamento: any){
+        return this.put(`/${Lancamento.id}`, Lancamento)
     }
 
     consultar(lancamentoFiltro: objetoFiltroLanc){
