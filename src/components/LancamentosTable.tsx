@@ -13,15 +13,31 @@ export default (props: any) => {
                 <td>{Lancamento.mes}</td>
                 <td>{Lancamento.status}</td>
                 <td>
+                    <button className="btn btn-success"
+                            disabled={ Lancamento.status !== "PENDENTE" }
+                            onClick={e => props.alteraStatusLancamento(Lancamento, "EFETIVADO")}
+                            title="Efetivar"
+                            type="button">
+                            <i className="pi pi-check"></i>
+                    </button>
+                    <button className="btn btn-warning"
+                            disabled={ Lancamento.status !== "PENDENTE" }
+                            onClick={e => props.alteraStatusLancamento(Lancamento, "CANCELADO")}
+                            title="Cancelar"
+                            type="button">
+                            <i className="pi pi-times"></i>
+                    </button>
                     <button type="button" 
                             className="btn btn-primary"
-                            onClick={e => props.editarLancamento(Lancamento.id)}>
-                            Editar
+                            onClick={e => props.editarLancamento(Lancamento.id)}
+                            title="Editar">                          
+                            <i className="pi pi-pencil"></i>
                     </button>
                     <button type="button" 
                             className="btn btn-danger"
-                            onClick={e => props.deletarLancamento(Lancamento)}>
-                            Deletar
+                            onClick={e => props.deletarLancamento(Lancamento)}
+                            title="Excluir">                          
+                            <i className="pi pi-trash"></i>
                     </button>
                 </td>
             </tr>

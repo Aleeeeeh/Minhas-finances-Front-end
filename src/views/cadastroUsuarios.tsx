@@ -15,43 +15,20 @@ export default function CadastroUsuario(){
 
     const service = new UsuarioService();
 
-    const validar = () =>{
-        const msgs = [];
-
-        if(!nome){
-            msgs.push("O campo nome é obrigatório.");
-        }
-
-        if(!email){
-            msgs.push("O campo e-mail é obrigatório.");
-        }else if(!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
-            msgs.push("Informe um e-mail válido.");
-        }
-
-        if(!senha){
-            msgs.push("Digite a senha.");
-        }else if(senha !== senhaRepeticao){
-            msgs.push("As senhas não conferem.")
-        }
-
-        return msgs;
-    }
-
     const cadastrar = () =>{
-        const msgs = validar();
-
-        if(msgs && msgs.length > 0){
-            msgs.forEach( (msg, index) =>{
-                mensagemErro(msg)
-            });
-
-            return false;
-        }
-
         const objetoUsuario = {
             nome: nome,
             email: email,
-            senha: senha
+            senha: senha,
+            senhaRepeticao: senhaRepeticao
+        }
+
+        try{
+            service.validar(objetoUsuario)
+        }catch(error: any){
+            const msgs = error.mensagens; //Mensagens vem da nossa função de excessão
+            msgs.forEach((msg:string) => mensagemErro(msg));
+            return false;
         }
 
         service.salvar(objetoUsuario)

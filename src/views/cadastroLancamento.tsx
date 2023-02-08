@@ -63,8 +63,9 @@ export default function CadastroLancamento(){
         try{
             service.validacao(objLancamento)
         }catch(error: any){
-            const mensagens = error.mensagens;
+            const mensagens = error.mensagens; //Mensagens vem da nossa função de excessão
             mensagens.forEach((msg: string) => mensagem.mensagemErro(msg));
+            return false;
         }
 
         service.salvar(objLancamento)

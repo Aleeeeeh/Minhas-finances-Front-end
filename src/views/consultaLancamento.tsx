@@ -98,6 +98,14 @@ export default function ConsultaLancamento(){
         history.push('/cadastro-lancamentos')
     }
     
+    const alterarStatus = (Lancamento:any, status:string) =>{
+        service.alterarStatus(Lancamento.id, status)
+        .then( response =>{
+            buscar(1);
+            mensagem.mensagemSucesso("Status atualizado com sucesso.");
+        })
+    }
+
     const meses = service.obterListaMeses();
     
     const tipos = service.obterListaTipos();
@@ -152,7 +160,8 @@ export default function ConsultaLancamento(){
                     <div className="bs-component">
                         <LancamentosTable lancamentos={lancamentos} 
                                         editarLancamento={editar}
-                                        deletarLancamento={abrirConfirmacao}/>
+                                        deletarLancamento={abrirConfirmacao}
+                                        alteraStatusLancamento={alterarStatus}/>
                     </div>
                 </div>
             </div>    
