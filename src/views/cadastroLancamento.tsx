@@ -177,12 +177,21 @@ export default function CadastroLancamento(){
                     {
                         atualizacao ? 
                         (
-                            <button onClick={atualizarLancamento} className="btn btn-success">Atualizar</button>
+                            <button onClick={atualizarLancamento} 
+                                    className="btn btn-success">
+                                    <i className="pi pi-refresh"></i> Atualizar
+                            </button>
                         ):(
-                            <button onClick={cadastraLancamento} className="btn btn-success">Cadastrar</button>
+                            <button onClick={cadastraLancamento} 
+                                    className="btn btn-success">
+                                    <i className="pi pi-save"></i> Cadastrar
+                            </button>
                         )
                     }               
-                    <button onClick={e => history.push('/consulta-lancamentos')} className="btn btn-danger">Cancelar</button>
+                    <button onClick={e => history.push('/consulta-lancamentos')} 
+                            className="btn btn-danger">
+                            Cancelar
+                    </button>
                 </div>
             </div>
         </Card> 

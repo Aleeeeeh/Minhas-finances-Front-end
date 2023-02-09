@@ -148,8 +148,16 @@ export default function ConsultaLancamento(){
                                             className="form-control" 
                                             lista={tipos} />
                             </FormGroup>
-                            <button onClick={() =>{buscar(0)}} type="button" className="btn btn-success">Buscar</button>
-                            <button type="button" onClick={cadastrar} className="btn btn-danger">Cadastrar</button>
+                            <button onClick={() =>{buscar(0)}} 
+                                    type="button" 
+                                    className="btn btn-success">
+                                    <i className="pi pi-search"></i> Buscar
+                            </button>
+                            <button type="button" 
+                                    onClick={cadastrar} 
+                                    className="btn btn-danger">
+                                    <i className="pi pi-plus"></i> Cadastrar
+                            </button>
                         </fieldset>
                     </div>
                 </div>

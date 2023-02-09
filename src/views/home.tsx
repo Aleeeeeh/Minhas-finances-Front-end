@@ -35,13 +35,11 @@ export default function Home(){
             <a className="btn btn-primary btn-lg" 
                 href="#/cadastro-usuarios" 
                 role="button">
-            <i className="fa fa-users"></i>
-            Cadastrar Usuário</a>
+                <i className="pi pi-users"></i> Cadastrar Usuário</a>
             <a className="btn btn-danger btn-lg" 
                 href="#/cadastro-lancamentos" 
                 role="button">
-                <i className="fa fa-users"></i>
-                Cadastrar Lançamento</a>
+                <i className="pi pi-money-bill"></i> Cadastrar Lançamento</a>
             </p>
       </div>
     )
