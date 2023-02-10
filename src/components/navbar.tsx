@@ -1,5 +1,11 @@
 import React from 'react'
 import NavBarItem from './Navbaritem'
+import AuthService from '../app/service/authService'
+
+const deslogar = () =>{
+    console.log("Deslogando da sessão...");
+    AuthService.removerUsuarioAutenticado();
+}
 
 export default function Navbar(){
 
@@ -15,7 +21,7 @@ export default function Navbar(){
                         <NavBarItem href="#/home" label="Home" />
                         <NavBarItem href="#/cadastro-usuarios" label="Usuários" />
                         <NavBarItem href="#/consulta-lancamentos" label="Lançamentos" />
-                        <NavBarItem href="#/login" label="Login" />
+                        <NavBarItem onClick={deslogar} href="#/login" label="Sair" />
                     </ul>
                 </div>
             </div>
