@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import UsuarioService from '../app/service/usuarioService';
 import localStorageService from '../app/service/localStorageService'
+import { AuthContext } from '../main/provedorAutenticacao'
+import { USUARIO_LOGADO } from '../app/service/authService';
 
 type usuarioLogado = string;
 
 export default function Home(){
 
     const [saldo, setSaldo] = useState(0);
+    //const usuarioLogado = localStorageService.obterItem('_usuario_logado');
+    const { usuarioAutenticado }:any = useContext(AuthContext);
 
     //Carrega dados do servidor
     useEffect(() => {
 
         const service = new UsuarioService();
-       
-        const usuarioLogado = localStorageService.obterItem('_usuario_logado');
         
-        service.obterSaldoPorUsuario(usuarioLogado.id)
+        service.obterSaldoPorUsuario(usuarioAutenticado.id)
         .then( response => {
             setSaldo( response.data );
         }).catch( error => {
@@ -26,7 +28,7 @@ export default function Home(){
 
     return(
         <div className="jumbotron">
-            <h1 className="display-3">Bem vindo!</h1>
+            <h1 className="display-3">Bem vindo {usuarioAutenticado.nome} </h1>
             <p className="lead">Esse é seu sistema de finanças.</p>
             <p className="lead">Seu saldo para o mês atual é de R$ {saldo}</p>
             <hr className="my-4" />

@@ -3,15 +3,26 @@ import React from 'react'
 type props ={
     href: string;
     label: string;
+    render: JSX.Element;
     onClick?: ()=>void; //Indica que o parâmetro é opcional
 }
 
-export default function NavBarItem({href, label, onClick} : props){
+export default function NavBarItem({render, href, label, onClick}: props){
 
-    return(
-        <li className="nav-item">
-            <a onClick={onClick} className="nav-link" href={href}>{label}</a>
-        </li>
-    )
+    if(render)
+    {
+        return(
+            <li className="nav-item">
+                <a onClick={onClick} className="nav-link" href={href}>{label}</a>
+            </li>
+        )
+    }
+    else
+    {
+        return (
+            <li></li>
+        )
+    }
+    
 
 }

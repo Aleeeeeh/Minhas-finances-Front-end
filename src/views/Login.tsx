@@ -1,9 +1,10 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import Card from '../components/Card'
 import FormGroup from '../components/Form-Group'
 import { useHistory } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
 import localStorageService from '../app/service/localStorageService'
+import { AuthContext } from '../main/provedorAutenticacao'
 import { mensagemErro } from '../components/toastr'
 
 export default function Login(){
@@ -13,6 +14,7 @@ export default function Login(){
     const history = useHistory();
 
     const service = new UsuarioService();
+    const { iniciarSessao }:any = useContext(AuthContext);
 
     const entrar = () =>{
         service.autenticar({
@@ -21,7 +23,9 @@ export default function Login(){
         })
         .then( response => {
             // Grava login e senha no localStorage
-            localStorageService.adicionarItem('_usuario_logado', response.data);
+            //localStorageService.adicionarItem('_usuario_logado', response.data);
+            iniciarSessao(response.data);
+            
             history.push("/home");
         }).catch( erro => { 
             mensagemErro(erro.response.data);

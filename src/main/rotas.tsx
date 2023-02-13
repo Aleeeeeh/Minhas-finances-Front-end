@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Home from '../views/home'
 import Login from '../views/Login'
 import CadastroUsuario from '../views/cadastroUsuarios'
 import ConsultaLancamentos from '../views/consultaLancamento'
 import CadastroLancamentos from '../views/cadastroLancamento'
-import AuthService from '../app/service/authService'
 import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
+import { AuthContext } from '../main/provedorAutenticacao'
 
 {/* 
     HashRouter é o que cria as rotas, ele coloca um # barra e o nome da rota de acesso a view.
@@ -14,10 +14,13 @@ import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
 */}
 /*Isso aqui é para quando o navbar fica disponível mesmo sem estar logado ai não deixaria usar menus 
 como lançamento e home que deve ser usado apenas se estiver logado.*/
-function RotaAutenticada({ component: Component, ...props }:any){
+
+function RotaAutenticada({ component: Component,...props }:any){
+    const { isAutenticado }:any = useContext(AuthContext);
+
     return (
         <Route {...props} render={ (componentProps) => {
-            if(AuthService.isUsuarioAutenticado()){
+            if(isAutenticado){
                 return(
                     <Component {...componentProps} />
                 )
@@ -31,7 +34,6 @@ function RotaAutenticada({ component: Component, ...props }:any){
 }
 
 export default function Rotas(){
-
     return(
         <HashRouter>
             <Switch>

@@ -10,6 +10,7 @@ import 'toastr/build/toastr.css'
 import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
+import ProvedorAutenticacao from './provedorAutenticacao'
 
 export default function App(){
   //Quando logar fazer identificar o usuário para que seja renderizado a NAVBAR
@@ -17,19 +18,12 @@ export default function App(){
 
   return(
       <>
-        {
-          usuarioAutenticado ?
-          (
-            <Navbar />
-          ):
-          (
-            <div></div>
-          )
-        }
-        
+      <ProvedorAutenticacao>
+        <Navbar />
         <div className="container"> 
-          <Rotas />
+            <Rotas />
         </div>
+      </ProvedorAutenticacao>
       </>
   )
   
