@@ -45,7 +45,7 @@ export default class LancamentoService extends ApiService{
     obterPorId(id: number){
         return this.get(`/${id}`);
     }
-
+    
     alterarStatus(id: string, status:string){
         return this.put(`/${id}/atualiza-status`, { status })
     }

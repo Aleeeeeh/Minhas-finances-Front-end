@@ -10,11 +10,10 @@ import 'toastr/build/toastr.css'
 import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
+
 import ProvedorAutenticacao from './provedorAutenticacao'
 
 export default function App(){
-  //Quando logar fazer identificar o usuário para que seja renderizado a NAVBAR
-  const usuarioAutenticado = AuthService.isUsuarioAutenticado();
 
   return(
       <>
