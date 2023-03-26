@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const httpClient = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: 'http://localhost:8080',
+    withCredentials: true //Permite mandar credenciais pelo cabeçalho
 })
 
 class ApiService{
@@ -9,6 +10,12 @@ class ApiService{
     
     constructor(apiUrl: string){
         this.apiUrl = apiUrl;
+    }
+
+    static registrarToken(token:string){
+        if(token){
+            httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}` 
+        }
     }
 
     post(url: string, objeto: object){
