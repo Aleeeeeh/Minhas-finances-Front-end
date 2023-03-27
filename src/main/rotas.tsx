@@ -4,6 +4,7 @@ import Login from '../views/Login'
 import CadastroUsuario from '../views/cadastroUsuarios'
 import ConsultaLancamentos from '../views/consultaLancamento'
 import CadastroLancamentos from '../views/cadastroLancamento'
+import LandingPage from '../views/landingPage'
 import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
 import { AuthContext } from '../main/provedorAutenticacao'
 
@@ -19,7 +20,7 @@ function RotaAutenticada({ component: Component,...props }:any){
     const { isAutenticado }:any = useContext(AuthContext);
 
     return (
-        <Route {...props} render={ (componentProps) => {
+        <Route exact {...props} render={ (componentProps) => {
             if(isAutenticado){
                 return(
                     <Component {...componentProps} />
@@ -37,6 +38,7 @@ export default function Rotas(){
     return(
         <HashRouter>
             <Switch>
+                <Route exact path="/" component={LandingPage} />
                 <Route path="/login"  component={Login} />
                 <Route path="/cadastro-usuarios" component={CadastroUsuario} />
 

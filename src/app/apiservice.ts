@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { BASE_URL } from '../utils/request';
 
 const httpClient = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: BASE_URL,
     withCredentials: true //Permite mandar credenciais pelo cabeçalho
 })
 

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import AuthService from '../app/service/authService';
 //import jwt from 'jsonwebtoken';
 import jwt_decode from "jwt-decode";
@@ -14,13 +14,12 @@ type props ={
 
 export default function ProvedorAutenticacao({children}: props){
 
-    const [usuarioAutenticado, setUsuarioAutenticado] = useState(null);
+    const [usuarioAutenticado, setUsuarioAutenticado] = useState({});
     const [isAutenticado, setIsAutenticado] = useState(false);
 
     // Loga no sistema e seta estado de login true e passa as credenciais do usuário que está logado
     const iniciarSessao = (tokenDTO:any) =>{
         const token = tokenDTO.token;
-        
         const claims = jwt_decode(token);
 
         const usuario = {
@@ -28,8 +27,7 @@ export default function ProvedorAutenticacao({children}: props){
             nome: claims.nome
         }
         console.log(claims);
-        ApiService.registrarToken(token);
-        AuthService.logar(tokenDTO);
+        AuthService.logar(usuario,token);
         setIsAutenticado(true);
         setUsuarioAutenticado(usuario);
     }
@@ -38,15 +36,25 @@ export default function ProvedorAutenticacao({children}: props){
     const encerrarSessao = () =>{
         AuthService.removerUsuarioAutenticado();
         setIsAutenticado(false);
-        setUsuarioAutenticado(null);
+        setUsuarioAutenticado({});
     }
-
+    
     const contexto = {
         usuarioAutenticado: usuarioAutenticado,
         isAutenticado: isAutenticado,
         iniciarSessao: iniciarSessao,
         encerrarSessao: encerrarSessao
     }
+
+    useEffect(() => {
+        const isUsuarioAutenticado = AuthService.isUsuarioAutenticado();
+        
+        if(isUsuarioAutenticado){
+            const usuario = AuthService.refreshSession();
+            setIsAutenticado(true);
+            setUsuarioAutenticado(usuario)
+        }
+    },[]);
 
     return(
         <AuthProvider value={contexto}>
