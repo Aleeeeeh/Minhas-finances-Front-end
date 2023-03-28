@@ -35,11 +35,11 @@ export default function Home(){
             <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
             <p className="lead">
             <a className="btn btn-primary btn-lg" 
-                href="#/cadastro-usuarios" 
+                href="cadastro-usuarios" 
                 role="button">
                 <i className="pi pi-users"></i> Cadastrar Usuário</a>
             <a className="btn btn-danger btn-lg" 
-                href="#/cadastro-lancamentos" 
+                href="cadastro-lancamentos" 
                 role="button">
                 <i className="pi pi-money-bill"></i> Cadastrar Lançamento</a>
             </p>

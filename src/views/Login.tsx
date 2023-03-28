@@ -38,7 +38,7 @@ export default function Login(){
 
     return(
         <div className="row">
-            <div className="col-md-6" style={{position: 'relative', left: '300px'}}>
+            <div className="col-md-6 offset-md-3">
                 <div className="bs-docs-section">
                     <Card title="Login">
                         {/* Para receber o HTML dentro do children, o mesmo em TSX deve ser do tipo ReactElement,

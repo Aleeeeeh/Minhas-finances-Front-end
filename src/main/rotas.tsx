@@ -5,7 +5,7 @@ import CadastroUsuario from '../views/cadastroUsuarios'
 import ConsultaLancamentos from '../views/consultaLancamento'
 import CadastroLancamentos from '../views/cadastroLancamento'
 import LandingPage from '../views/landingPage'
-import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import { AuthContext } from '../main/provedorAutenticacao'
 
 {/* 
@@ -36,7 +36,7 @@ function RotaAutenticada({ component: Component,...props }:any){
 
 export default function Rotas(){
     return(
-        <HashRouter>
+        <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route path="/login"  component={Login} />
@@ -47,7 +47,7 @@ export default function Rotas(){
                 <RotaAutenticada path="/cadastro-lancamentos/:idLancamento?" component={CadastroLancamentos} />
                 {/* ? -> Pra renderizar mesmo sem parâmetro */}
             </Switch>
-        </HashRouter>
+        </BrowserRouter>
     )
 
 }

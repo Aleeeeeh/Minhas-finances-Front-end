@@ -16,6 +16,7 @@ export default function ProvedorAutenticacao({children}: props){
 
     const [usuarioAutenticado, setUsuarioAutenticado] = useState({});
     const [isAutenticado, setIsAutenticado] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Loga no sistema e seta estado de login true e passa as credenciais do usuário que está logado
     const iniciarSessao = (tokenDTO:any) =>{
@@ -52,9 +53,14 @@ export default function ProvedorAutenticacao({children}: props){
         if(isUsuarioAutenticado){
             const usuario = AuthService.refreshSession();
             setIsAutenticado(true);
-            setUsuarioAutenticado(usuario)
+            setUsuarioAutenticado(usuario);
         }
+        setIsLoading(false);
     },[]);
+
+    if(isLoading){
+        return null;
+    }
 
     return(
         <AuthProvider value={contexto}>
