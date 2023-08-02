@@ -8,7 +8,6 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "suppressImplicitAnyIndexErrors":true, //Resolve o erro de tipagem do toastr.ts
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",

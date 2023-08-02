@@ -10,7 +10,7 @@ export default (props: any) => {
                 <td>{Lancamento.descricao}</td>
                 <td>{currencyFormatter.format(Lancamento.valor, {locale: 'pt-BR'})}</td>
                 <td>{Lancamento.tipo}</td>
-                <td>{Lancamento.mes}</td>
+                <td>{props.nomeMes(Lancamento.mes)}</td>
                 <td>{Lancamento.status}</td>
                 <td>
                     <button className="btn btn-success"

@@ -19,6 +19,7 @@ toastr.options = {
 }
 
 export function mostrarMensagem(titulo:string, mensagem:string, tipo:string){
+    //@ts-ignore
     toastr[tipo](mensagem, titulo)
 }
 

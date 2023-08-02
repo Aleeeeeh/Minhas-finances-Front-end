@@ -1,6 +1,6 @@
 import React from 'react'
 import Rotas from './rotas'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar'
 import 'toastr/build/toastr.min.js'
 import AuthService from '../app/service/authService'
 

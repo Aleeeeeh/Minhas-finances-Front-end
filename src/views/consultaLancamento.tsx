@@ -21,7 +21,7 @@ export default function ConsultaLancamento(){
     const [descricao, setDescricao] = useState('');
     const [lancamentos, setLancamentos] = useState([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [lancamentoDeletar, setLancamentoDeletar] = useState([]);
+    const [lancamentoDeletar, setLancamentoDeletar] = useState([] as any)
 
     const history = useHistory();
 
@@ -106,6 +106,35 @@ export default function ConsultaLancamento(){
         })
     }
 
+    const retornaNomeMes = (numeroMes:number) =>{
+        switch(numeroMes){
+            case 1:
+                return "JANEIRO";
+            case 2:
+                return "FEVEREIRO"
+            case 3:
+                return "MARÇO"
+            case 4:
+                return "ABRIL"
+            case 5:
+                return "MAIO"
+            case 6:
+                return "JUNHO"
+            case 7:
+                return "JULHO"
+            case 8:
+                return "AGOSTO"
+            case 9:
+                return "SETEMBRO"
+            case 10:
+                return "OUTUBRO"
+            case 11:
+                return "NOVEMBRO"
+            default:
+                return "DEZEMBRO"
+        }
+    }
+
     const meses = service.obterListaMeses();
     
     const tipos = service.obterListaTipos();
@@ -169,7 +198,8 @@ export default function ConsultaLancamento(){
                         <LancamentosTable lancamentos={lancamentos} 
                                         editarLancamento={editar}
                                         deletarLancamento={abrirConfirmacao}
-                                        alteraStatusLancamento={alterarStatus}/>
+                                        alteraStatusLancamento={alterarStatus}
+                                        nomeMes={retornaNomeMes}/>
                     </div>
                 </div>
             </div>    
