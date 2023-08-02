@@ -204,14 +204,14 @@ export default function ConsultaLancamento(){
                 </div>
             </div>    
             <div>
-            <Dialog header="Confirmação" 
-                    visible={showConfirmDialog} // Se o modal está visível ou não 
-                    style={{ width: '50vw' }} 
-                    footer={confirmaDialogFooter} // Botões que aparecem na parte debaixo do modal
-                    modal={true} // Modal visivel
-                    onHide={() => setShowConfirmDialog(false)}> {/* Aqui muda o state para false e true do modal */}
-                <p>Deseja realmente deletar esse lançamento ?</p>
-            </Dialog>
+                <Dialog header="Confirmação" 
+                        visible={showConfirmDialog} // Se o modal está visível ou não 
+                        style={{ width: '50vw' }} 
+                        footer={confirmaDialogFooter} // Botões que aparecem na parte debaixo do modal
+                        modal={true} // Modal visivel
+                        onHide={() => setShowConfirmDialog(false)}> {/* Aqui muda o state para false e true do modal */}
+                    <p>Deseja realmente deletar esse lançamento ?</p>
+                </Dialog>
             </div>   
         </Card>
     )

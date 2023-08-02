@@ -24,7 +24,9 @@ export default function ProvedorAutenticacao({children}: props){
         const claims = jwt_decode(token);
 
         const usuario = {
+            //@ts-ignore
             id: claims.userid,
+            //@ts-ignore
             nome: claims.nome
         }
         console.log(claims);
@@ -63,6 +65,7 @@ export default function ProvedorAutenticacao({children}: props){
     }
 
     return(
+        //@ts-ignore
         <AuthProvider value={contexto}>
             {children}
         </AuthProvider>

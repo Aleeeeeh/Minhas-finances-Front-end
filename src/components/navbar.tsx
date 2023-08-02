@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import NavBarItem from './Navbaritem'
+import NavBarItem from './navbaritem'
 import { AuthContext } from '../main/provedorAutenticacao'
 
 export default function Navbar(){
