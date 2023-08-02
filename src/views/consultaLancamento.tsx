@@ -142,55 +142,55 @@ export default function ConsultaLancamento(){
     return(
         <Card title="Lançamentos">
             <div className="row">
-                <div className="col-lg-6">
-                    <div className="bs-component">
-                        <fieldset>
-                            <FormGroup label="Ano: *" htmlFor="InputAno">
-                                <input type="text" 
+            <div className="col-lg-6">
+                        <FormGroup label="Ano: *" htmlFor="InputAno">
+                            <input type="text" 
+                                    className="form-control" 
+                                    id="InputAno" 
+                                    value={ano}
+                                    onChange={(e: any) => setAno(e.target.value)}
+                                    placeholder="Digite o Ano" />
+                        </FormGroup>
+                        <FormGroup label="Mês: *" htmlFor="InputMes">
+                            <SelectMenu id="inputMes"
+                                        value={mes}
+                                        onChange={(e:any) => setMes(e.target.value)}
                                         className="form-control" 
-                                        id="InputAno" 
-                                        value={ano}
-                                        onChange={(e: any) => setAno(e.target.value)}
-                                        placeholder="Digite o Ano" />
-                            </FormGroup>
-                            <FormGroup label="Mês: *" htmlFor="InputMes">
-                                <SelectMenu id="inputMes"
-                                            value={mes}
-                                            onChange={(e:any) => setMes(e.target.value)}
-                                            className="form-control" 
-                                            lista={meses} />
-                            </FormGroup>
-                            {/* Colocando só a primeira letra no filtro descrição ele já traz, isso foi criado no 
-                              método de filtrar na API do Java */}
-                            <FormGroup label="Descrição: " htmlFor="InputDesc">
-                                <input type="text"
-                                            id="InputDesc"
-                                            value={descricao}
-                                            onChange={(e:any) => setDescricao(e.target.value)}
-                                            className="form-control" 
-                                            placeholder="Digite a descrição" />
-                            </FormGroup>
-                            <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
-                                <SelectMenu id="InputTipos"
-                                            value={tipo}
-                                            onChange={(e:any) => setTipo(e.target.value)}
-                                            className="form-control" 
-                                            lista={tipos} />
-                            </FormGroup>
-                            <button onClick={() =>{buscar(0)}} 
-                                    type="button" 
-                                    className="btn btn-success">
-                                    <i className="pi pi-search"></i> Buscar
-                            </button>
-                            <button type="button" 
-                                    onClick={cadastrar} 
-                                    className="btn btn-danger">
-                                    <i className="pi pi-plus"></i> Cadastrar
-                            </button>
-                        </fieldset>
+                                        lista={meses} />
+                        </FormGroup>
                     </div>
-                </div>
-            </div>  
+                    <div className="col-lg-6">
+                        {/* Colocando só a primeira letra no filtro descrição ele já traz, isso foi criado no 
+                            método de filtrar na API do Java */}
+                        <FormGroup label="Descrição: " htmlFor="InputDesc">
+                            <input type="text"
+                                        id="InputDesc"
+                                        value={descricao}
+                                        onChange={(e:any) => setDescricao(e.target.value)}
+                                        className="form-control" 
+                                        placeholder="Digite a descrição" />
+                        </FormGroup>
+                        <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
+                            <SelectMenu id="InputTipos"
+                                        value={tipo}
+                                        onChange={(e:any) => setTipo(e.target.value)}
+                                        className="form-control" 
+                                        lista={tipos} />
+                        </FormGroup>
+                    </div>
+                </div> 
+                <fieldset>
+                    <button onClick={() =>{buscar(0)}} 
+                            type="button" 
+                            className="btn btn-success">
+                            <i className="pi pi-search"></i> Buscar
+                    </button>
+                    <button type="button" 
+                            onClick={cadastrar} 
+                            className="btn btn-danger">
+                            <i className="pi pi-plus"></i> Cadastrar
+                    </button>
+                </fieldset>
             <br />       
             <div className="row">
                 <div className="col-lg-12">
