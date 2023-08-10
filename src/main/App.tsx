@@ -19,9 +19,7 @@ export default function App(){
       <>
       <ProvedorAutenticacao>
         <Navbar />
-        <div className="container"> 
-            <Rotas />
-        </div>
+        <Rotas />
       </ProvedorAutenticacao>
       </>
   )

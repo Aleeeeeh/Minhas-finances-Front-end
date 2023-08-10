@@ -39,13 +39,15 @@ export default function Rotas(){
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={LandingPage} />
-                <Route path="/login"  component={Login} />
-                <Route path="/cadastro-usuarios" component={CadastroUsuario} />
+                <div className='container'>
+                    <Route path="/login"  component={Login} />
+                    <Route path="/cadastro-usuarios" component={CadastroUsuario} />
 
-                <RotaAutenticada path="/home" component={Home} />
-                <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
-                <RotaAutenticada path="/cadastro-lancamentos/:idLancamento?" component={CadastroLancamentos} />
+                    <RotaAutenticada path="/home" component={Home} />
+                    <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
+                    <RotaAutenticada path="/cadastro-lancamentos/:idLancamento?" component={CadastroLancamentos} />
                 {/* ? -> Pra renderizar mesmo sem parâmetro */}
+                </div>
             </Switch>
         </BrowserRouter>
     )
