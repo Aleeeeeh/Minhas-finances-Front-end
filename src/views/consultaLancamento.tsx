@@ -21,7 +21,7 @@ export default function ConsultaLancamento(){
     const [descricao, setDescricao] = useState('');
     const [lancamentos, setLancamentos] = useState([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [lancamentoDeletar, setLancamentoDeletar] = useState([]);
+    const [lancamentoDeletar, setLancamentoDeletar] = useState([] as any)
 
     const history = useHistory();
 
@@ -106,6 +106,35 @@ export default function ConsultaLancamento(){
         })
     }
 
+    const retornaNomeMes = (numeroMes:number) =>{
+        switch(numeroMes){
+            case 1:
+                return "JANEIRO";
+            case 2:
+                return "FEVEREIRO"
+            case 3:
+                return "MARÇO"
+            case 4:
+                return "ABRIL"
+            case 5:
+                return "MAIO"
+            case 6:
+                return "JUNHO"
+            case 7:
+                return "JULHO"
+            case 8:
+                return "AGOSTO"
+            case 9:
+                return "SETEMBRO"
+            case 10:
+                return "OUTUBRO"
+            case 11:
+                return "NOVEMBRO"
+            default:
+                return "DEZEMBRO"
+        }
+    }
+
     const meses = service.obterListaMeses();
     
     const tipos = service.obterListaTipos();
@@ -113,55 +142,55 @@ export default function ConsultaLancamento(){
     return(
         <Card title="Lançamentos">
             <div className="row">
-                <div className="col-lg-6">
-                    <div className="bs-component">
-                        <fieldset>
-                            <FormGroup label="Ano: *" htmlFor="InputAno">
-                                <input type="text" 
+            <div className="col-lg-6">
+                        <FormGroup label="Ano: *" htmlFor="InputAno">
+                            <input type="text" 
+                                    className="form-control" 
+                                    id="InputAno" 
+                                    value={ano}
+                                    onChange={(e: any) => setAno(e.target.value)}
+                                    placeholder="Digite o Ano" />
+                        </FormGroup>
+                        <FormGroup label="Mês: *" htmlFor="InputMes">
+                            <SelectMenu id="inputMes"
+                                        value={mes}
+                                        onChange={(e:any) => setMes(e.target.value)}
                                         className="form-control" 
-                                        id="InputAno" 
-                                        value={ano}
-                                        onChange={(e: any) => setAno(e.target.value)}
-                                        placeholder="Digite o Ano" />
-                            </FormGroup>
-                            <FormGroup label="Mês: *" htmlFor="InputMes">
-                                <SelectMenu id="inputMes"
-                                            value={mes}
-                                            onChange={(e:any) => setMes(e.target.value)}
-                                            className="form-control" 
-                                            lista={meses} />
-                            </FormGroup>
-                            {/* Colocando só a primeira letra no filtro descrição ele já traz, isso foi criado no 
-                              método de filtrar na API do Java */}
-                            <FormGroup label="Descrição: " htmlFor="InputDesc">
-                                <input type="text"
-                                            id="InputDesc"
-                                            value={descricao}
-                                            onChange={(e:any) => setDescricao(e.target.value)}
-                                            className="form-control" 
-                                            placeholder="Digite a descrição" />
-                            </FormGroup>
-                            <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
-                                <SelectMenu id="InputTipos"
-                                            value={tipo}
-                                            onChange={(e:any) => setTipo(e.target.value)}
-                                            className="form-control" 
-                                            lista={tipos} />
-                            </FormGroup>
-                            <button onClick={() =>{buscar(0)}} 
-                                    type="button" 
-                                    className="btn btn-success">
-                                    <i className="pi pi-search"></i> Buscar
-                            </button>
-                            <button type="button" 
-                                    onClick={cadastrar} 
-                                    className="btn btn-danger">
-                                    <i className="pi pi-plus"></i> Cadastrar
-                            </button>
-                        </fieldset>
+                                        lista={meses} />
+                        </FormGroup>
                     </div>
-                </div>
-            </div>  
+                    <div className="col-lg-6">
+                        {/* Colocando só a primeira letra no filtro descrição ele já traz, isso foi criado no 
+                            método de filtrar na API do Java */}
+                        <FormGroup label="Descrição: " htmlFor="InputDesc">
+                            <input type="text"
+                                        id="InputDesc"
+                                        value={descricao}
+                                        onChange={(e:any) => setDescricao(e.target.value)}
+                                        className="form-control" 
+                                        placeholder="Digite a descrição" />
+                        </FormGroup>
+                        <FormGroup label="Tipo de Lançamento:" htmlFor="InputTipos">
+                            <SelectMenu id="InputTipos"
+                                        value={tipo}
+                                        onChange={(e:any) => setTipo(e.target.value)}
+                                        className="form-control" 
+                                        lista={tipos} />
+                        </FormGroup>
+                    </div>
+                </div> 
+                <fieldset>
+                    <button onClick={() =>{buscar(0)}} 
+                            type="button" 
+                            className="btn btn-success">
+                            <i className="pi pi-search"></i> Buscar
+                    </button>
+                    <button type="button" 
+                            onClick={cadastrar} 
+                            className="btn btn-danger">
+                            <i className="pi pi-plus"></i> Cadastrar
+                    </button>
+                </fieldset>
             <br />       
             <div className="row">
                 <div className="col-lg-12">
@@ -169,19 +198,20 @@ export default function ConsultaLancamento(){
                         <LancamentosTable lancamentos={lancamentos} 
                                         editarLancamento={editar}
                                         deletarLancamento={abrirConfirmacao}
-                                        alteraStatusLancamento={alterarStatus}/>
+                                        alteraStatusLancamento={alterarStatus}
+                                        nomeMes={retornaNomeMes}/>
                     </div>
                 </div>
             </div>    
             <div>
-            <Dialog header="Confirmação" 
-                    visible={showConfirmDialog} // Se o modal está visível ou não 
-                    style={{ width: '50vw' }} 
-                    footer={confirmaDialogFooter} // Botões que aparecem na parte debaixo do modal
-                    modal={true} // Modal visivel
-                    onHide={() => setShowConfirmDialog(false)}> {/* Aqui muda o state para false e true do modal */}
-                <p>Deseja realmente deletar esse lançamento ?</p>
-            </Dialog>
+                <Dialog header="Confirmação" 
+                        visible={showConfirmDialog} // Se o modal está visível ou não 
+                        style={{ width: '50vw' }} 
+                        footer={confirmaDialogFooter} // Botões que aparecem na parte debaixo do modal
+                        modal={true} // Modal visivel
+                        onHide={() => setShowConfirmDialog(false)}> {/* Aqui muda o state para false e true do modal */}
+                    <p>Deseja realmente deletar esse lançamento ?</p>
+                </Dialog>
             </div>   
         </Card>
     )

@@ -1,9 +1,36 @@
-import React, { useContext } from 'react'
-import NavBarItem from './Navbaritem'
+import React, { useContext, useState } from 'react'
+import NavBarItem from './navbaritem'
 import { AuthContext } from '../main/provedorAutenticacao'
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
+import localStorage from '../app/service/localStorageService'
 
 export default function Navbar(){
     const { isAutenticado, encerrarSessao }:any = useContext(AuthContext);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(localStorage.obterItem("exibeModal"));
+    const [diretorio, setDiretorio] = useState('');
+
+    const abreModal = () =>{
+        localStorage.adicionarItem("exibeModal",JSON.stringify("true"));
+    }
+
+    const deslogar = () =>{
+        localStorage.removerItem("exibeModal")
+        setShowConfirmDialog(false);
+        encerrarSessao();
+    } 
+
+    const manterLogado = () =>{
+        setShowConfirmDialog(false);
+        localStorage.removerItem("exibeModal");
+    }
+
+    const confirmaDialogFooter = (
+        <div>
+            <Button label="Confirmar" icon="pi pi-check" onClick={deslogar} />
+            <Button label="Cancelar" icon="pi pi-times" onClick={manterLogado} />
+        </div> 
+    )
 
     return(
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
@@ -17,10 +44,20 @@ export default function Navbar(){
                         <NavBarItem render={isAutenticado} href="/home" label="Home" />
                         <NavBarItem render={isAutenticado} href="/cadastro-usuarios" label="Usuários" />
                         <NavBarItem render={isAutenticado} href="/consulta-lancamentos" label="Lançamentos" />
-                        <NavBarItem render={isAutenticado} onClick={encerrarSessao} href="/login" label="Sair" />
+                        <NavBarItem render={isAutenticado} onClick={abreModal} href={diretorio} label="Sair" />
                     </ul>
                 </div>
             </div>
+            <div>
+                <Dialog header="Confirmação" 
+                        visible={showConfirmDialog} 
+                        style={{ width: '50vw' }} 
+                        footer={confirmaDialogFooter} 
+                        modal={true} 
+                        onHide={() => setShowConfirmDialog(false)}>
+                    <p>Deseja realmente sair do sistema ?</p>
+                </Dialog>
+            </div>   
         </div>
     )
 

@@ -14,6 +14,7 @@ export default class AuthService{
             return false;
         }
         const decodedToken = jwt_decode(token);
+        //@ts-ignore
         const expiration = decodedToken.exp;
         const isTokenInvalido = Date.now() >= (expiration * 1000)
 

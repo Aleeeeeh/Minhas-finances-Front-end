@@ -27,7 +27,7 @@ class UsuarioService extends ApiService{
     }
 
     salvar(usuario: objetoCadUsuario){
-        return this.post('/', usuario)
+        return this.post('', usuario)
     }
 
     validar(usuario:any){
@@ -50,6 +50,7 @@ class UsuarioService extends ApiService{
         }
 
         if(erros && erros.length > 0){
+            //@ts-ignore
             throw new ErroValidacao(erros);
         }
     }

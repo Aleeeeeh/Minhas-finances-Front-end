@@ -47,6 +47,7 @@ export default class LancamentoService extends ApiService{
     }
     
     alterarStatus(id: string, status:string){
+        //@ts-ignore
         return this.put(`/${id}/atualiza-status`, { status })
     }
 
@@ -74,6 +75,7 @@ export default class LancamentoService extends ApiService{
         }
 
         if(erros && erros.length > 0){
+            //@ts-ignore
             throw new ErroValidacao(erros);
         }
     }
