@@ -55,6 +55,10 @@ class UsuarioService extends ApiService{
         }
     }
 
+    consultaUsuarios(){
+        return this.get("")
+    }
+
 }
 
 export default UsuarioService

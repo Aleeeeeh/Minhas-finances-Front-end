@@ -42,7 +42,7 @@ export default function Navbar(){
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav">
                         <NavBarItem render={isAutenticado} href="/home" label="Home" />
-                        <NavBarItem render={isAutenticado} href="/cadastro-usuarios" label="Usuários" />
+                        <NavBarItem render={isAutenticado} href="/listagemUsuarios" label="Usuários" />
                         <NavBarItem render={isAutenticado} href="/consulta-lancamentos" label="Lançamentos" />
                         <NavBarItem render={isAutenticado} onClick={abreModal} href={diretorio} label="Sair" />
                     </ul>
