@@ -3,6 +3,7 @@ import UsuarioService from '../app/service/usuarioService';
 import localStorageService from '../app/service/localStorageService'
 import { AuthContext } from '../main/provedorAutenticacao'
 import { USUARIO_LOGADO } from '../app/service/authService';
+import { mensagemAlerta } from '../components/toastr'
 
 type usuarioLogado = string;
 
@@ -26,6 +27,10 @@ export default function Home(){
 
     });
 
+    const alerta = () =>{
+        mensagemAlerta("Em desenvolvimento ...");
+    }
+
     return(
         <div className="jumbotron">
             <h1 className="display-3">Bem vindo {usuarioAutenticado.nome} </h1>
@@ -35,9 +40,9 @@ export default function Home(){
             <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
             <p className="lead">
             <a className="btn btn-primary btn-lg" 
-                href="cadastro-usuarios" 
+                onClick={alerta}
                 role="button">
-                <i className="pi pi-users"></i> Cadastrar Usuário</a>
+                <i className="pi pi-book"></i> Gerar relatório</a>
             <a className="btn btn-danger btn-lg" 
                 href="cadastro-lancamentos" 
                 role="button">
