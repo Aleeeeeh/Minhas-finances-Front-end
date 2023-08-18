@@ -10,7 +10,6 @@ export default function telaUsuarios(){
 
     const service = new UsuarioService;
 
-
      useEffect(() => {
         service.consultaUsuarios()
         .then(response=>{
@@ -28,6 +27,7 @@ export default function telaUsuarios(){
                             <th scope="col">ID</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Email</th>
+                            <th scope="col">Visto por último</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +38,7 @@ export default function telaUsuarios(){
                                         <td>{info.id}</td>
                                         <td>{info.nome}</td>
                                         <td>{info.email}</td>
+                                        <td>{info.ultimoLogin}</td>
                                     </tr>
                                 )
                                 

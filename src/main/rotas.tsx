@@ -43,8 +43,8 @@ export default function Rotas(){
                 <div className='container'>
                     <Route path="/login"  component={Login} />
                     <Route path="/cadastro-usuarios" component={CadastroUsuario} />
-                    <Route path="/listagemUsuarios" component={listaUsuarios} />
-
+                    
+                    <RotaAutenticada path="/listagemUsuarios" component={listaUsuarios} />
                     <RotaAutenticada path="/home" component={Home} />
                     <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
                     <RotaAutenticada path="/cadastro-lancamentos/:idLancamento?" component={CadastroLancamentos} />
