@@ -40,7 +40,7 @@ export default function Home(){
             <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
             <p className="lead">
             <a className="btn btn-primary btn-lg" 
-                onClick={alerta}
+                href="relatorioLancamentos"
                 role="button">
                 <i className="pi pi-book"></i> Gerar relatório</a>
             <a className="btn btn-danger btn-lg" 

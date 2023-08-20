@@ -3,7 +3,6 @@ import Card from '../components/Card'
 import UsuarioService from '../app/service/usuarioService';
 import {objetoUsuario} from '../components/typesUsuario'
 
-
 export default function telaUsuarios(){
 
     const [usuario, setUsuario] = useState<objetoUsuario[]>([]);

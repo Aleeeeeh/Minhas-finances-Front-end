@@ -6,6 +6,7 @@ import ConsultaLancamentos from '../views/consultaLancamento'
 import CadastroLancamentos from '../views/cadastroLancamento'
 import listaUsuarios from '../views/listagemUsuarios'
 import LandingPage from '../views/landingPage'
+import relatorioDeLancamento from '../views/relatorioLancamentos'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import { AuthContext } from '../main/provedorAutenticacao'
 
@@ -44,6 +45,7 @@ export default function Rotas(){
                     <Route path="/login"  component={Login} />
                     <Route path="/cadastro-usuarios" component={CadastroUsuario} />
                     
+                    <RotaAutenticada path="/relatorioLancamentos" component={relatorioDeLancamento} />
                     <RotaAutenticada path="/listagemUsuarios" component={listaUsuarios} />
                     <RotaAutenticada path="/home" component={Home} />
                     <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
