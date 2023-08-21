@@ -42,6 +42,35 @@ export default class LancamentoService extends ApiService{
         ]
     }
 
+    retornaNomeMes = (numeroMes:number) =>{
+        switch(numeroMes){
+            case 1:
+                return "JANEIRO";
+            case 2:
+                return "FEVEREIRO"
+            case 3:
+                return "MARÇO"
+            case 4:
+                return "ABRIL"
+            case 5:
+                return "MAIO"
+            case 6:
+                return "JUNHO"
+            case 7:
+                return "JULHO"
+            case 8:
+                return "AGOSTO"
+            case 9:
+                return "SETEMBRO"
+            case 10:
+                return "OUTUBRO"
+            case 11:
+                return "NOVEMBRO"
+            default:
+                return "DEZEMBRO"
+        }
+    }
+
     obterPorId(id: number){
         return this.get(`/${id}`);
     }
@@ -116,6 +145,14 @@ export default class LancamentoService extends ApiService{
 
     deletar(id: string){
         return this.delete(`/${id}`)
+    }
+
+    consultaLancamentosPorPeriodo(mesInicial:number,mesFinal:number,anoInicial:string,anoFinal:string,usuarioID:string){
+        let params = `/peridoLancamento?usuarioId=${usuarioID}&anoAtual=${anoInicial}&anoFinal=${anoFinal}&mesAtual=${mesInicial}&mesFinal=${mesFinal}`
+
+        console.log(params);
+
+        return this.get(params);
     }
 
 }

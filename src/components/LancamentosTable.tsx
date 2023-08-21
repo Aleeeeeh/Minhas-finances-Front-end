@@ -1,8 +1,11 @@
 import React from 'react'
 import currencyFormatter from 'currency-formatter'
 import { objetoLancamento } from './typesLancamentos'
+import LancamentoService from '../app/service/lancamentoService'
 
 export default (props: any) => {
+
+    const service = new LancamentoService();
 
     const rows = props.lancamentos.map( (Lancamento: objetoLancamento) => {
         return(
@@ -10,7 +13,7 @@ export default (props: any) => {
                 <td>{Lancamento.descricao}</td>
                 <td>{currencyFormatter.format(Lancamento.valor, {locale: 'pt-BR'})}</td>
                 <td>{Lancamento.tipo}</td>
-                <td>{props.nomeMes(Lancamento.mes)}</td>
+                <td>{service.retornaNomeMes(parseInt(Lancamento.mes))}</td>
                 <td>{Lancamento.status}</td>
                 <td>
                     <button className="btn btn-success"

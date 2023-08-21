@@ -4,6 +4,7 @@ import {objetoRelatorio} from '../components/typesRelatorio'
 import { Calendar } from 'primereact/calendar';
 import * as mensagem from '../components/toastr'
 import localStorageService from '../app/service/localStorageService';
+import LancamentoService from '../app/service/lancamentoService';
 
 export default function relatorioLancamentos(){
 
@@ -14,6 +15,9 @@ export default function relatorioLancamentos(){
     const [anoInicial, setAnoInicial] = useState<any>('');
     const [mesFinal, setMesFinal] = useState<any>('');
     const [anoFinal, setAnoFinal] = useState<any>('');
+    const [lancamentoFiltrados, setLancamentosFiltrados] = useState<objetoRelatorio[]>([]);
+
+    const service = new LancamentoService();
 
     const dadosDeUsuario = localStorageService.obterItem("_usuario_logado");
 
@@ -60,29 +64,79 @@ export default function relatorioLancamentos(){
         }
     }
 
+    const exibirElementos = () =>{
+        document.querySelector("#tabela")?.classList.remove("visually-hidden");
+        document.querySelector("#botaoGeraPDF")?.classList.remove("visually-hidden");
+        document.querySelector("#botaoGeraExcel")?.classList.remove("visually-hidden");
+    }
+
+    const esconderElementos = () =>{
+        document.querySelector("#tabela")?.classList.add("visually-hidden");
+        document.querySelector("#botaoGeraPDF")?.classList.add("visually-hidden");
+        document.querySelector("#botaoGeraExcel")?.classList.add("visually-hidden");
+    }
+
     const validaSePeriodoFoiInformado = () =>{
         if((dataInicialCompleta !== "" && dataFinalCompleta !== "")&&(dataInicialCompleta !== null && dataFinalCompleta !== null)){
-            var dataInicialCompletaEmString = converterObjetoEmString(dataInicialCompleta);
-            var objetodataInicialCompletaFormatadoEmPosicoes = converterStringEmObjetoFormatado(dataInicialCompletaEmString);
-            var dataFinalCompletaEmString = converterObjetoEmString(dataFinalCompleta);
-            var objetodataFinalCompletaFormatadoEmPosicoes = converterStringEmObjetoFormatado(dataFinalCompletaEmString);
-            setMesFinal(retornarNumeroDoMes(objetodataFinalCompletaFormatadoEmPosicoes[1]));
-            setAnoFinal(objetodataFinalCompletaFormatadoEmPosicoes[3]);
-            setMesInicial(retornarNumeroDoMes(objetodataInicialCompletaFormatadoEmPosicoes[1]));
-            setAnoInicial(objetodataInicialCompletaFormatadoEmPosicoes[3]);
+            exibirElementos();
         }else{
-            mensagem.mensagemErro("Favor informe período completo, data inicial e final.");
+            mensagem.mensagemAlerta("Favor informe período completo");
+            esconderElementos();
+            return "PeriodoIncompleto";
         }
+    }
+
+    const validaSeGravouOPeridoNaVariavelDeLancamentos = () =>{
+        if(lancamentoFiltrados.length == 0){
+            mensagem.mensagemAlerta("Não existem dados para o periodo informado");
+            esconderElementos();
+        }
+    }
+
+    const gravaPeridoDeDatas = () =>{
+        var dataInicialCompletaEmString = converterObjetoEmString(dataInicialCompleta);
+        var objetodataInicialCompletaFormatadoEmPosicoes = converterStringEmObjetoFormatado(dataInicialCompletaEmString);
+        var dataFinalCompletaEmString = converterObjetoEmString(dataFinalCompleta);
+        var objetodataFinalCompletaFormatadoEmPosicoes = converterStringEmObjetoFormatado(dataFinalCompletaEmString);
+        setMesFinal(retornarNumeroDoMes(objetodataFinalCompletaFormatadoEmPosicoes[1]));
+        setAnoFinal(objetodataFinalCompletaFormatadoEmPosicoes[3]);
+        setMesInicial(retornarNumeroDoMes(objetodataInicialCompletaFormatadoEmPosicoes[1]));
+        setAnoInicial(objetodataInicialCompletaFormatadoEmPosicoes[3]);
+        validaSeGravouOPeridoNaVariavelDeLancamentos();
     }
 
     const gerarPDF = () =>{
         validaSePeriodoFoiInformado();
+        validaSeGravouOPeridoNaVariavelDeLancamentos();
     }
 
     const gerarExcel = () =>{
         validaSePeriodoFoiInformado();
+        validaSeGravouOPeridoNaVariavelDeLancamentos();
+    }
+
+    const consultaLancamentos = () =>{
+        if(validaSePeriodoFoiInformado() == "PeriodoIncompleto"){
+            return false;
+        }
+        gravaPeridoDeDatas();
+
+        console.log("----------");
+        console.log(mesInicial);
+        console.log(mesFinal);
+        console.log(anoInicial);
+        console.log(anoFinal);
+        console.log(dadosDeUsuario.id);
+        console.log("---------");
+        
+        service.consultaLancamentosPorPeriodo(mesInicial,mesFinal,anoFinal,anoFinal,dadosDeUsuario.id)
+        .then(Response =>{
+            setLancamentosFiltrados(Response.data);
+        })
     }
     
+    console.log(lancamentoFiltrados);
+
     return(
         <Card title="Exportar relatório de lançamentos">
             <div className='row'>
@@ -95,18 +149,25 @@ export default function relatorioLancamentos(){
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div className='col-md-4 d-flex justify-content-end'>
-                    <button className="btn btn-danger"
+                    <button id="botaoGeraPDF"
+                            className="btn btn-danger visually-hidden"
                             onClick={gerarPDF}>
                             <i className="pi pi-file-pdf" title='Gerar PDF'></i>
                     </button>
-                    <button className="btn btn-success"
+                    <button id="botaoGeraExcel"
+                            className="btn btn-success visually-hidden"
                             onClick={gerarExcel}>
                             <i className="pi pi-file-excel" title='Gerar Excel'></i>
                     </button>
                 </div>
             </div>
+            <div className='row mt-4'>
+                <div className='col-md-4'>
+                    <button className='btn btn-info' onClick={consultaLancamentos}>Consultar</button>
+                </div>
+            </div>
             <div className='pt-4'>
-                <table className="table table-hover">
+                <table id='tabela' className="table table-hover visually-hidden">
                     <thead>
                         <tr>
                             <th scope="col">Descrição</th>
@@ -117,13 +178,19 @@ export default function relatorioLancamentos(){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        {
+                            lancamentoFiltrados.map(response =>{
+                                return(
+                                    <tr>
+                                        <td>{response.descricao}</td>
+                                        <td>{response.tipo}</td>
+                                        <td>{response.valor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
+                                        <td>{service.retornaNomeMes(parseInt(response.mes))}</td>
+                                        <td>{response.ano}</td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>
