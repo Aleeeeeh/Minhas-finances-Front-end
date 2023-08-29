@@ -5,6 +5,8 @@ import { Calendar } from 'primereact/calendar';
 import * as mensagem from '../components/toastr'
 import localStorageService from '../app/service/localStorageService';
 import LancamentoService from '../app/service/lancamentoService';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'
 
 export default function relatorioLancamentos(){
 
@@ -90,6 +92,7 @@ export default function relatorioLancamentos(){
         if(lancamentoFiltrados.length == 0){
             mensagem.mensagemAlerta("Não existem dados para o periodo informado");
             esconderElementos();
+            return lancamentoFiltrados.length;
         }
     }
 
@@ -106,13 +109,31 @@ export default function relatorioLancamentos(){
     }
 
     const gerarPDF = () =>{
-        validaSePeriodoFoiInformado();
-        validaSeGravouOPeridoNaVariavelDeLancamentos();
+        if(validaSePeriodoFoiInformado() == "PeriodoIncompleto"){
+            return false;
+        }
+        if(validaSeGravouOPeridoNaVariavelDeLancamentos() == 0){
+            return false;
+        }
+
+        var doc = new jsPDF({
+            orientation: 'landscape',
+            format: 'letter'
+        })
+        autoTable(doc,{html: "#tabela"});
+        doc.save("Relatorio-lancamentos-mensal.pdf");
+        
     }
 
     const gerarExcel = () =>{
-        validaSePeriodoFoiInformado();
-        validaSeGravouOPeridoNaVariavelDeLancamentos();
+        if(validaSePeriodoFoiInformado() == "PeriodoIncompleto"){
+            return false;
+        }
+        if(validaSeGravouOPeridoNaVariavelDeLancamentos() == 0){
+            return false;
+        }
+
+        mensagem.mensagemAlerta("Em desevolvimento ...");
     }
 
     const consultaLancamentos = () =>{
@@ -120,14 +141,6 @@ export default function relatorioLancamentos(){
             return false;
         }
         gravaPeridoDeDatas();
-
-        console.log("----------");
-        console.log(mesInicial);
-        console.log(mesFinal);
-        console.log(anoInicial);
-        console.log(anoFinal);
-        console.log(dadosDeUsuario.id);
-        console.log("---------");
         
         service.consultaLancamentosPorPeriodo(mesInicial,mesFinal,anoFinal,anoFinal,dadosDeUsuario.id)
         .then(Response =>{
