@@ -59,6 +59,10 @@ class UsuarioService extends ApiService{
         return this.get("")
     }
 
+    gravaDataEHoraUltimoLogout(id:number){
+        return this.put(`/${id}/ultimoLogout`,"");
+    }
+
 }
 
 export default UsuarioService

@@ -4,11 +4,16 @@ import { AuthContext } from '../main/provedorAutenticacao'
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import localStorage from '../app/service/localStorageService'
+import UsuarioService from '../app/service/usuarioService';
 
 export default function Navbar(){
     const { isAutenticado, encerrarSessao }:any = useContext(AuthContext);
     const [showConfirmDialog, setShowConfirmDialog] = useState(localStorage.obterItem("exibeModal"));
     const [diretorio, setDiretorio] = useState('');
+
+    const usuarioService = new UsuarioService();
+
+    var dadosUsuarioLogado = localStorage.obterItem("_usuario_logado")
 
     const abreModal = () =>{
         localStorage.adicionarItem("exibeModal",JSON.stringify("true"));
@@ -18,6 +23,7 @@ export default function Navbar(){
         localStorage.removerItem("exibeModal")
         setShowConfirmDialog(false);
         encerrarSessao();
+        usuarioService.gravaDataEHoraUltimoLogout(dadosUsuarioLogado.id);
     } 
 
     const manterLogado = () =>{
