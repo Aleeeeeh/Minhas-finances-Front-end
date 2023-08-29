@@ -2,11 +2,11 @@
 Ferramenta criada para gestão de finanças, onde é possível realizar lançamentos de entradas e saídas e com isso refletindo no saldo total de caixa do usuário. O sistema também conta com relatórios em PDF gerados com base em filtros por período.
 
 ## Tecnologias utilizadas :computer:
-React js + Vite
-Typescript
-TokenJWT
-Bootstrap
-PrimeReact
+React js + Vite <br />
+Typescript <br />
+TokenJWT <br />
+Bootstrap <br />
+PrimeReact <br />
 
 ## Telas 
 ### Landing page
