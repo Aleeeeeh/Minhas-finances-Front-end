@@ -30,6 +30,7 @@ PrimeReact <br />
 ### Relatório em PDF
 ![RelatorioFoto](https://github.com/Aleeeeeh/Minhas-finances-Front-end/assets/58706720/6933056d-2d7b-488c-aa1e-6da5aca32ecc)
 
-
-
+## Autor
+#### Alefe Ferreira da Silva
+https://www.linkedin.com/in/alefe-ferreira-322125235/
 
