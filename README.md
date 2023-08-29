@@ -1,14 +1,14 @@
 # :money_with_wings: Gestão de finanças pessoais :money_with_wings:
 Ferramenta criada para gestão de finanças, onde é possível realizar lançamentos de entradas e saídas e com isso refletindo no saldo total de caixa do usuário. O sistema também conta com relatórios em PDF gerados com base em filtros por período.
 
-##Tecnologias utilizadas :computer:
+## Tecnologias utilizadas :computer:
 React js + Vite
 Typescript
 TokenJWT
 Bootstrap
 PrimeReact
 
-##Telas 
+## Telas 
 ### Landing page
 ![LandingPage](https://github.com/Aleeeeeh/Minhas-finances-Front-end/assets/58706720/7cd75686-bd59-4ea1-ad25-9f929ec2e0b5)
 
